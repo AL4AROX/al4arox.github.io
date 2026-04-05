@@ -1,535 +1,372 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roxii · Screensharer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roxii · Screensharer & Staff</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ========== ESTILOS (exactamente igual que antes, sin cambios) ========== */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-        body {
-            background-color: #0a0c10;
-            font-family: 'Inter', sans-serif;
-            color: #eef2ff;
-            line-height: 1.5;
-            padding: 2rem 1rem;
-        }
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-tertiary: #111111;
+      --bg-card: #0f0f0f;
+      --accent-primary: #ff5e5e;
+      --accent-secondary: #b77cff;
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --text-tertiary: #71717a;
+      --border-primary: #1f1f23;
+      --border-secondary: #27272a;
+      --glow-primary: #ff5e5e;
+      --glow-secondary: #b77cff;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #111317;
-            border-radius: 2rem;
-            padding: 2rem 2rem;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
-            border: 1px solid #1e2128;
-            position: relative;
-        }
-
-        /* Altavoz en esquina superior derecha */
-        .speaker-icon {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.8rem;
-            font-size: 1.6rem;
-            cursor: pointer;
-            background: #1a1d24;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            border: 1px solid #2a2f3a;
-            z-index: 10;
-        }
-        .speaker-icon:hover {
-            background: #2a2f3a;
-            transform: scale(1.05);
-        }
-
-        /* Foto de perfil circular */
-        .profile-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1.2rem;
-        }
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #7c8bff;
-            box-shadow: 0 0 15px rgba(124, 139, 255, 0.3);
-            transition: transform 0.2s;
-        }
-        .profile-pic:hover {
-            transform: scale(1.02);
-        }
-
-        .header {
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #ffffff, #a0a8c0);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 0.25rem;
-        }
-
-        .badge {
-            display: inline-block;
-            background-color: #1a1d24;
-            color: #7c8bff;
-            font-size: 0.8rem;
-            font-weight: 500;
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-            margin: 0.5rem 0 0.75rem 0;
-            border: 1px solid #2a2f3a;
-        }
-
-        .info-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: #b9c2d4;
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid #1e2128;
-            padding-bottom: 1.2rem;
-        }
-
-        .info-row span i {
-            width: 1.4rem;
-            color: #7c8bff;
-        }
-
-        .quote {
-            font-style: italic;
-            color: #cbd5e6;
-            border-left: 3px solid #7c8bff;
-            margin: 1.5rem 0;
-            font-size: 0.95rem;
-            background-color: #0e1015;
-            border-radius: 12px;
-            padding: 1rem;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        .quote:hover {
-            transform: scale(1.01);
-            filter: blur(0.3px);
-        }
-
-        .two-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.8rem;
-            margin-top: 2rem;
-        }
-
-        .section {
-            margin-top: 0;
-        }
-
-        .section-title {
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #8f9bb5;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .section-title i {
-            font-size: 1rem;
-            color: #7c8bff;
-        }
-
-        .bio-text {
-            background: #0c0f14;
-            padding: 1rem;
-            border-radius: 1rem;
-            font-size: 0.9rem;
-            border: 1px solid #20232c;
-            line-height: 1.6;
-            transition: all 0.25s ease;
-        }
-        .bio-text:hover {
-            transform: scale(1.01);
-            filter: blur(0.3px);
-            border-color: #7c8bff;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: #0c0f14;
-            padding: 0.7rem 1rem;
-            border-radius: 1rem;
-            border: 1px solid #20232c;
-            transition: all 0.2s;
-        }
-        .contact-item:hover {
-            transform: translateX(5px);
-            filter: blur(0.2px);
-            border-color: #7c8bff;
-        }
-
-        .contact-item i {
-            width: 1.8rem;
-            font-size: 1.2rem;
-            color: #7c8bff;
-        }
-
-        .contact-item a {
-            color: #eef2ff;
-            text-decoration: none;
-        }
-
-        .currently-section {
-            margin-top: 2rem;
-        }
-
-        .links-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .link-item {
-            background-color: #0c0f14;
-            border: 1px solid #23262f;
-            border-radius: 1rem;
-            padding: 0.9rem 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: #eef2ff;
-            transition: all 0.25s ease;
-        }
-        .link-item:hover {
-            transform: translateY(-3px) scale(1.01);
-            filter: blur(0.4px);
-            background-color: #181c24;
-        }
-
-        .link-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-weight: 500;
-            flex-wrap: wrap;
-        }
-
-        .link-left i {
-            width: 1.8rem;
-            font-size: 1.3rem;
-        }
-
-        .role-tag {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.8rem;
-            border-radius: 40px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-
-        .link-arrow {
-            font-size: 0.85rem;
-            opacity: 0.6;
-            transition: all 0.2s;
-        }
-        .link-item:hover .link-arrow {
-            opacity: 1;
-            transform: translateX(3px);
-        }
-
-        /* Colores personalizados para cada servidor */
-        .ggcraft i, .ggcraft .link-left > span:first-of-type { color: #ff5e5e; }
-        .ggcraft .role-tag { background: rgba(255, 94, 94, 0.2); color: #ff5e5e; border: 1px solid rgba(255, 94, 94, 0.3); }
-        .ggcraft:hover { border-color: #ff5e5e; }
-        
-        .minepet i, .minepet .link-left > span:first-of-type { color: #ff5e5e; }
-        .minepet .role-tag { background: rgba(255, 94, 94, 0.2); color: #ff5e5e; border: 1px solid rgba(255, 94, 94, 0.3); }
-        .minepet:hover { border-color: #ff5e5e; }
-        
-        .dynamic i, .dynamic .link-left > span:first-of-type { color: #b77cff; }
-        .dynamic .role-tag { background: rgba(183, 124, 255, 0.2); color: #b77cff; border: 1px solid rgba(183, 124, 255, 0.3); }
-        .dynamic:hover { border-color: #b77cff; }
-        
-        .sololegends i, .sololegends .link-left > span:first-of-type { color: #5e9eff; }
-        .sololegends .role-tag { background: rgba(94, 158, 255, 0.2); color: #5e9eff; border: 1px solid rgba(94, 158, 255, 0.3); }
-        .sololegends:hover { border-color: #5e9eff; }
-        
-        .ssa i, .ssa .link-left > span:first-of-type { color: #5e9eff; }
-        .ssa .role-tag { background: rgba(94, 158, 255, 0.2); color: #5e9eff; border: 1px solid rgba(94, 158, 255, 0.3); }
-        .ssa:hover { border-color: #5e9eff; }
-
-        footer {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.75rem;
-            color: #5b667e;
-            border-top: 1px solid #1e2128;
-            padding-top: 1.5rem;
-        }
-
-        @media (max-width: 700px) {
-            .two-columns {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .container {
-                padding: 1.5rem;
-            }
-            .speaker-icon {
-                top: 1rem;
-                right: 1.2rem;
-                width: 38px;
-                height: 38px;
-                font-size: 1.3rem;
-            }
-            .profile-pic {
-                width: 80px;
-                height: 80px;
-            }
-        }
-    </style>
+    .app-container.animate-in,
+    #mute-btn.animate-in { opacity: 1; }
+    .section { transition: transform 1s ease-out, opacity 1s ease-out; }
+    #staffExperience { transition-delay: 0.4s; }
+    #mute-btn {
+      background: transparent; position: fixed; top: 0; left: 0; z-index: 10000;
+      color: #fff; border: 3px solid #fff; border-radius: .5rem; width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center; margin: 8px; font-size: 18px;
+      cursor: pointer; opacity: 0; transition: opacity .5s ease-out, transform 1s ease-out;
+    }
+    #bg-start-audio {
+      position: fixed; top: 0; left: 0; z-index: 100000000; background: #000;
+      width: 100%; height: 100%; justify-content: center; align-items: center;
+      display: flex; transition: opacity 0.2s ease-in-out; cursor: pointer; font-size: 15.2px;
+    }
+    #bg-start-audio h1 { transition: opacity 0.05s ease-in-out; opacity: 1; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary);
+      overflow-x: hidden; overflow-y: hidden; line-height: 1.6; font-size: 14px;
+      -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh;
+    }
+    .app-container { display: flex; width: 100vw; min-height: 100vh; opacity: 0; transition: opacity .5s ease-out; }
+    /* Panel a la derecha */
+    .right-panel {
+      width: 280px; background: rgba(15, 15, 15, 0.8); border-left: 1px solid var(--border-primary);
+      padding: 1.5rem 0; display: flex; flex-direction: column; gap: 0.5rem; position: fixed;
+      top: 50%; right: 100px; transform: translateY(-50%); height: auto; max-height: 80vh;
+      overflow-y: auto; z-index: 100; border-radius: 16px; backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-xl); border: 1px solid var(--border-primary); transition-delay: 0.2s;
+    }
+    .panel-header { padding: 0 1.5rem 1rem 1.5rem; font-size: 0.85rem; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.5rem; }
+    .panel-header i { font-size: 1rem; color: var(--text-secondary); }
+    .panel-item {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem;
+      border-radius: 8px 0 0 8px; color: var(--text-secondary); font-weight: 500;
+      cursor: pointer; transition: all 0.2s ease; position: relative;
+    }
+    .panel-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+    .panel-item.active {
+      background: var(--accent-primary); color: var(--text-primary); font-weight: 600;
+      border-right: 4px solid var(--accent-secondary); padding-right: calc(1.5rem - 4px);
+      padding-left: 1.5rem; box-shadow: 0 0 15px rgba(183, 124, 255, 0.3);
+    }
+    .panel-icon-wrapper { width: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
+    .main-content { flex-grow: 1; padding: 2rem; display: flex; flex-direction: column; align-items: center; margin-right: 200px; }
+    .section {
+      background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 16px;
+      padding: 2rem; backdrop-filter: blur(20px); position: relative; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden; max-width: 1000px; margin: 0 auto 40px auto; width: 100%; scroll-margin-top: 20px;
+    }
+    .section:last-child { margin-bottom: 0; }
+    #profileBio { margin-bottom: 100px !important; transition-delay: 0.3s; }
+    #profileName { margin-top: -0.3rem; }
+    .section-header { justify-content: center; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); }
+    .section-icon { font-size: 1.25rem; }
+    .hero-content { position: relative; z-index: 2; text-align: center; }
+    .profile-wrapper { position: relative; display: inline-block; width: 150px; height: 150px; }
+    .profile-border { width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(135deg, #ff5e5e, #b77cff, #5e9eff, #ff5e5e); position: absolute; top: 0; left: 0; z-index: -1; animation: rotate 8s linear infinite; }
+    .profile-image { width: 140px; height: 140px; border-radius: 50%; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 60px rgba(255, 94, 94, 0.5); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; }
+    .profile-inner { width: 100%; height: 100%; border-radius: 50%; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .profile-inner img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .subtitle { margin-top: 0.25rem; margin-bottom: 0.25rem; font-size: 1.25rem; color: var(--text-secondary); font-weight: 500; }
+    .bio-tabs { margin-top: 0; }
+    .bio-tab { margin-bottom: 0.5rem; }
+    .staff-category { margin: 20px auto; max-width: 1000px; }
+    .staff-category h3 { display: flex; align-items: center; gap: 0.5rem; font-size: 1rem; margin-bottom: 1rem; padding-left: 0; }
+    .staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .server-card {
+      background: var(--bg-tertiary); border: 1px solid var(--border-primary); border-radius: 12px;
+      padding: 1.5rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
+      overflow: hidden; cursor: pointer; display: flex; flex-direction: column; align-items: center;
+      text-align: center; height: 120px; justify-content: center;
+    }
+    .server-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #ff5e5e, #b77cff); transform: scaleX(0); transition: transform 0.4s ease; }
+    .server-card:hover::before { transform: scaleX(1); }
+    .server-card:hover { border-color: var(--border-secondary); transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .server-info h4 { font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; text-align: center; }
+    .server-role { background: #10b9811a; color: #10b981; border: 1px solid #10b98133; padding: 0.375rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; display: inline-block; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+    .server-year { color: var(--text-tertiary); font-size: 0.8rem; margin-top: 0.1rem; margin-bottom: 0.3rem; line-height: 1; }
+    .bio-details { text-align: left; margin-top: 1.5rem; color: var(--text-secondary); }
+    .bio-staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; width: 100%; }
+    .bio-staff-section { margin-top: 3rem; width: 100%; }
+    .bio-links-section { margin-top: 3rem; width: 100%; }
+    .bio-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
+    .bio-staff-title { display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; }
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes textGradient { 0% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    body::before { content: ''; position: fixed; inset: 0; z-index: -2; background: repeating-linear-gradient(180deg, #ff5e5e 0%, #b77cff 20%, #5e9eff 50%, #b77cff 80%, #ff5e5e 100%); background-size: 100% 300%; background-repeat: repeat-y; animation: backgroundFlow 12s linear infinite; opacity: 0.5; }
+    @keyframes backgroundFlow { from { background-position: 0 0; } to { background-position: 0 300%; } }
+    .scroll-progress { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: transparent; z-index: 1000; }
+    .scroll-progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)); width: 0%; transition: width 0.2s ease; }
+    @media (max-width: 1024px) { .right-panel { right: 20px; width: 290px; } .main-content { margin-right: 270px; } }
+    @media (max-width: 768px) {
+      .app-container { flex-direction: column; }
+      .right-panel { width: 100%; height: auto; position: relative; top: 0; right: 0; transform: none; max-height: none; margin-bottom: 1rem; border-left: none; border-bottom: 1px solid var(--border-primary); flex-direction: row; justify-content: center; flex-wrap: wrap; padding: 1rem; border-radius: 0; }
+      .panel-item { flex: 1 1 auto; max-width: 150px; justify-content: center; border-radius: 8px; padding-left: 1.5rem; }
+      .panel-item.active { border-left: none; border-right: none; padding-left: 1.5rem; padding-right: 1.5rem; }
+      .main-content { padding: 1rem; margin-right: 0; }
+      .section { max-width: 100%; margin: 20px auto; padding: 1.5rem; }
+      .staff-grid { grid-template-columns: 1fr; }
+      .panel-header { display: none; }
+      .bio-links-grid { grid-template-columns: 1fr; }
+    }
+    ::selection { background: var(--accent-primary); color: #fff; }
+  </style>
 </head>
+
 <body>
+  <div id="bg-start-audio"><h1>Click Anywhere</h1></div>
+  <audio id="bg-music" loop autoplay><source src="song.mp3" type="audio/mp3"></audio>
+  <button id="mute-btn"><i class="fa-solid fa-volume-high"></i></button>
+  <div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
 
-<div class="container">
-    <!-- Altavoz interactivo -->
-    <div class="speaker-icon" id="musicToggle">
-        🔊
-    </div>
+  <div class="app-container">
+    <aside class="right-panel">
+      <div class="panel-header" style="justify-content: center;"><i class="fa-solid fa-list"></i></div>
+      <div class="panel-item active" data-section="profileBio"><span class="panel-icon-wrapper"><i class="fa-solid fa-user"></i></span><span>About myself</span></div>
+      <div class="panel-item" data-section="staffExperience"><span class="panel-icon-wrapper">⚒️</span><span>Staff Experience</span></div>
+    </aside>
 
-    <!-- Foto de perfil circular -->
-    <div class="profile-container">
-        <img src="https://i.imgur.com/C58UOeP.png" alt="Roxii" class="profile-pic">
-    </div>
-
-    <!-- Header -->
-    <div class="header">
-        <h1>Roxii</h1>
-        <div class="badge">Screensharer</div>
-        <div class="info-row">
-            <span><i class="fas fa-calendar-alt"></i> Age: 13 y/o</span>
-            <span><i class="fas fa-map-marker-alt"></i> España</span>
-            <span><i class="fas fa-graduation-cap"></i> Estudios: Secundaria</span>
+    <div class="main-content">
+      <!-- Sección About myself -->
+      <section class="section" id="profileBio">
+        <div class="section-header"><div class="section-icon"><i class="fa-solid fa-user"></i></div><span>About myself</span></div>
+        <div class="hero-content">
+          <div class="profile-wrapper"><div class="profile-border"></div><div class="profile-image"><div class="profile-inner" id="profileAvatar"></div></div></div>
+          <h1 id="profileName" style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; background: linear-gradient(90deg, #ff5e5e 0%, #b77cff 25%, #5e9eff 50%, #b77cff 75%, #ff5e5e 100%); background-size: 200% auto; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0; letter-spacing: -0.02em; animation: textGradient 1.5s linear infinite;"></h1>
+          <p class="subtitle" id="profileSubtitle"></p>
+          <div class="bio-tabs">
+            <div class="bio-tab"><strong>Age:</strong> 13 y/o</div>
+            <div class="bio-tab"><strong>Place:</strong> España</div>
+            <div class="bio-tab"><strong>Occupation:</strong> Estudiante (Secundaria) • Screensharer</div>
+            <div class="bio-staff-section"><h3 class="bio-staff-title"><i class="fa-solid fa-user-clock"></i> CURRENTLY</h3><div class="bio-staff-grid"></div></div>
+            <div class="bio-links-section"><h3 class="bio-staff-title"><i class="fa-solid fa-link"></i> LINKS</h3><div class="bio-links-grid"></div></div>
+          </div>
+          <div class="bio-details" id="bioDetailsContent"><i class="fa-solid fa-quote-left" style="margin-right: 8px; color:#ff5e5e;"></i> "Los Gangsters también lloran"</div>
         </div>
-    </div>
+      </section>
 
-    <!-- Frase -->
-    <div class="quote">
-        <i class="fas fa-quote-left" style="margin-right: 8px; color:#7c8bff;"></i> 
-        "Los Gangsters también lloran"
-    </div>
-
-    <!-- DOS COLUMNAS: Bio + Staff Experience -->
-    <div class="two-columns">
-        <!-- Bio columna izquierda -->
-        <div class="section">
-            <div class="section-title">
-                <i class="fas fa-user-astronaut"></i> Bio
-            </div>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fab fa-discord"></i>
-                    <span>whoisroxii</span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <span><a href="mailto:alvarox504@gmail.com">alvarox504@gmail.com</a></span>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-link"></i>
-                    <span><a href="https://e-z.bio/iroxii" target="_blank">e-z.bio/iroxii</a></span>
-                </div>
-            </div>
+      <!-- Sección Staff Experience -->
+      <section class="section" id="staffExperience">
+        <div class="section-header"><div class="section-icon">⚒️</div><span>Staff Experience</span></div>
+        <div class="bio-text" style="background: #111; padding: 1rem; border-radius: 12px; margin-bottom: 2rem;">
+          • Moderación excelente<br>• Gestión de equipos<br>• Creación de sistemas avanzados y normativos<br>• Pasión y conocimientos en revisión de PC
         </div>
-
-        <!-- Staff Experience columna derecha -->
-        <div class="section">
-            <div class="section-title">
-                <i class="fas fa-briefcase"></i> Staff Experience
-            </div>
-            <div class="bio-text">
-                • Moderación excelente<br>
-                • Gestión de equipos<br>
-                • Creación de sistemas avanzados y normativos<br>
-                • Pasión y conocimientos en revisión de PC
-            </div>
-        </div>
+        <div id="staffCurrentContainer"></div>   <!-- Aquí se genera "Experiencia actual" (con todos + Demon Bypass) -->
+        <!-- No se genera "Experiencia previa" porque la hemos vaciado -->
+      </section>
     </div>
+  </div>
 
-    <!-- Currently con colores en los roles -->
-    <div class="currently-section">
-        <div class="section-title">
-            <i class="fas fa-rocket"></i> Currently
-        </div>
-        <div class="links-list">
-            <a href="https://imgur.com/a/bRbq5QP" class="link-item ggcraft" target="_blank">
-                <div class="link-left">
-                    <i class="fas fa-crown"></i>
-                    <span>GGCRAFT</span>
-                    <span class="role-tag">Coordinador & SS Manager</span>
-                </div>
-                <div class="link-arrow"><i class="fas fa-arrow-right"></i></div>
-            </a>
-            <a href="https://imgur.com/a/nR6JQyc" class="link-item minepet" target="_blank">
-                <div class="link-left">
-                    <i class="fas fa-paw"></i>
-                    <span>MinePet</span>
-                    <span class="role-tag">Senior Admin & SS Coordinator</span>
-                </div>
-                <div class="link-arrow"><i class="fas fa-arrow-right"></i></div>
-            </a>
-            <a href="https://imgur.com/a/H3u7T9w" class="link-item dynamic" target="_blank">
-                <div class="link-left">
-                    <i class="fas fa-bolt"></i>
-                    <span>DynamicPvP</span>
-                    <span class="role-tag">Mod+ & SS Verified</span>
-                </div>
-                <div class="link-arrow"><i class="fas fa-arrow-right"></i></div>
-            </a>
-            <a href="https://imgur.com/a/KD9MPZ3" class="link-item sololegends" target="_blank">
-                <div class="link-left">
-                    <i class="fas fa-dragon"></i>
-                    <span>Sololegends</span>
-                    <span class="role-tag">Mod & SS Verified</span>
-                </div>
-                <div class="link-arrow"><i class="fas fa-arrow-right"></i></div>
-            </a>
-            <a href="https://imgur.com/a/VJlL8Jz" class="link-item ssa" target="_blank">
-                <div class="link-left">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>SSA</span>
-                    <span class="role-tag">Staff</span>
-                </div>
-                <div class="link-arrow"><i class="fas fa-arrow-right"></i></div>
-            </a>
-        </div>
-    </div>
+  <script>
+    // ========== CONFIGURACIÓN ACTUALIZADA ==========
+    const CONFIG = {
+      profile: {
+        name: "Roxii",
+        avatar: "https://i.imgur.com/C58UOeP.png",
+        subtitle: "Screensharer",
+      },
+      // Lista completa para "Experiencia actual" (dentro de Staff Experience)
+      // Incluye todos los servidores actuales + Demon Bypass
+      currentServersFull: [
+        { serverName: "GGCRAFT", role: "Coordinador & SS Manager", color: "#ff5e5e", imgurLink: "https://imgur.com/a/bRbq5QP" },
+        { serverName: "MinePet", role: "Senior Admin & SS Coordinator", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
+        { serverName: "DynamicPvP", role: "Mod+ & SS Verified", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
+        { serverName: "Sololegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
+        { serverName: "SSA", role: "Staff", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
+        { serverName: "Demon Bypass", role: "HEADQUARTERS", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" }
+      ],
+      // Lista para la sección "CURRENTLY" dentro de About myself (solo DynamicPvP, MinePet, Sololegends)
+      currentlyDisplay: [
+        { serverName: "DynamicPvP", role: "Mod+ & SS Verified", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
+        { serverName: "MinePet", role: "Senior Admin & SS Coordinator", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
+        { serverName: "Sololegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" }
+      ],
+      // Experiencia previa: vacío (se han eliminado Hollow Bypass, PCASVC.EXE, PhaseMC)
+      pastServers: [],
+      links: [
+        { name: "Discord", role: "whoisroxii", icon: "fa-brands fa-discord", color: "#5865F2", link: "https://discord.com/users/whoisroxii" },
+        { name: "Email", role: "alvarox504@gmail.com", icon: "fa-solid fa-envelope", color: "#22c55e", link: "mailto:alvarox504@gmail.com" },
+        { name: "E-Z Bio", role: "e-z.bio/iroxii", icon: "fa-solid fa-link", color: "#22d3ee", link: "https://e-z.bio/iroxii" }
+      ]
+    };
 
-    <footer>
-        <i class="fas fa-music"></i> roxii · screensharer
-    </footer>
-</div>
-
-<!-- Reproductor de audio oculto para la canción -->
-<audio id="audioPlayer" style="display: none;">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-    // Configuración de la música con YouTube embed y control de altavoz
-    let isPlaying = false;
-    let youtubeIframe = null;
-    let playerReady = false;
-    
-    // Crear el reproductor de YouTube oculto
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    
-    let player;
-    
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('youtubePlayer', {
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
+    // Funciones auxiliares (igual que antes)
+    function hexToRgba(hex, alpha) {
+      let c = hex.replace('#', '');
+      if (c.length === 3) c = c.split('').map(x => x + x).join('');
+      const bigint = parseInt(c, 16);
+      const r = (bigint >> 16) & 255, g = (bigint >> 8) & 255, b = bigint & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
-    
-    function onPlayerReady(event) {
-        playerReady = true;
-    }
-    
-    function onPlayerStateChange(event) {
-        if (event.data === YT.PlayerState.PLAYING) {
-            isPlaying = true;
-            document.getElementById('musicToggle').innerHTML = '🔇';
-        } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-            isPlaying = false;
-            document.getElementById('musicToggle').innerHTML = '🔊';
+
+    function createCategory(containerId, title, icon, servers) {
+      if (!servers || servers.length === 0) return;
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const categoryDiv = document.createElement('div');
+      categoryDiv.className = 'staff-category';
+      categoryDiv.innerHTML = `<h3>${icon ? `<i class="${icon}"></i>` : ''} ${title}</h3><div class="staff-grid"></div>`;
+      const grid = categoryDiv.querySelector('.staff-grid');
+      servers.forEach(server => {
+        const card = document.createElement('div');
+        card.className = 'server-card';
+        card.addEventListener('click', () => window.open(server.imgurLink, '_blank'));
+        const yearHtml = server.year ? `<div class="server-year">${server.year}</div>` : '';
+        card.innerHTML = `<div class="server-info"><h4>${server.serverName}</h4>${yearHtml}<div class="server-role">${server.role}</div></div>`;
+        if (server.color) {
+          const roleEl = card.querySelector('.server-role');
+          roleEl.style.background = hexToRgba(server.color, 0.1);
+          roleEl.style.borderColor = hexToRgba(server.color, 0.2);
+          roleEl.style.color = server.color;
         }
+        grid.appendChild(card);
+      });
+      container.appendChild(categoryDiv);
     }
-    
-    // Crear el div oculto para YouTube
-    const youtubeDiv = document.createElement('div');
-    youtubeDiv.id = 'youtubePlayer';
-    youtubeDiv.style.display = 'none';
-    document.body.appendChild(youtubeDiv);
-    
-    // Control del altavoz
-    document.getElementById('musicToggle').addEventListener('click', function() {
-        if (playerReady && player) {
-            if (isPlaying) {
-                player.pauseVideo();
-                this.innerHTML = '🔊';
-                isPlaying = false;
-            } else {
-                player.playVideo();
-                this.innerHTML = '🔇';
-                isPlaying = true;
-            }
-        } else if (!playerReady) {
-            // Si el reproductor no está listo, cargarlo con el video correcto
-            window.onYouTubeIframeAPIReady = function() {
-                player = new YT.Player('youtubePlayer', {
-                    videoId: 'oIqGW0B3dKM',
-                    events: {
-                        'onReady': function(event) {
-                            playerReady = true;
-                            event.target.playVideo();
-                            document.getElementById('musicToggle').innerHTML = '🔇';
-                            isPlaying = true;
-                        },
-                        'onStateChange': onPlayerStateChange
-                    }
-                });
-            };
-            // Recargar la API si es necesario
-            if (typeof YT === 'undefined' || !YT.Player) {
-                const script = document.createElement('script');
-                script.src = "https://www.youtube.com/iframe_api";
-                document.head.appendChild(script);
-            } else {
-                window.onYouTubeIframeAPIReady();
-            }
+
+    function createGenericCards(targetElement, items) {
+      const container = document.querySelector(targetElement);
+      if (!container) return;
+      container.innerHTML = '';
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'server-card';
+        card.addEventListener('click', () => window.open(item.link, '_blank'));
+        const cardName = item.name || item.role;
+        card.innerHTML = `<div class="server-info"><h4>${item.icon ? `<i class="${item.icon}"></i>&nbsp;` : ''}${cardName}</h4><div class="server-role">${item.role}</div></div>`;
+        if (item.color) {
+          const roleEl = card.querySelector('.server-role');
+          roleEl.style.background = hexToRgba(item.color, 0.1);
+          roleEl.style.borderColor = hexToRgba(item.color, 0.2);
+          roleEl.style.color = item.color;
         }
+        container.appendChild(card);
+      });
+    }
+
+    function initializeProfile() {
+      document.getElementById('profileAvatar').innerHTML = `<img src="${CONFIG.profile.avatar}" alt="Profile avatar">`;
+      document.getElementById('profileName').textContent = CONFIG.profile.name;
+      document.getElementById('profileSubtitle').innerHTML = `<i class="fa-solid fa-magnifying-glass" style="transform: scaleX(-1);"></i> ${CONFIG.profile.subtitle}`;
+    }
+
+    // Resaltado de sección y barra de progreso
+    function highlightActiveSection() {
+      const sections = document.querySelectorAll('.section');
+      const navItems = document.querySelectorAll('.panel-item');
+      const viewportMiddle = window.scrollY + (window.innerHeight / 2);
+      let closestSection = sections[0];
+      let minDistance = Math.abs(viewportMiddle - (sections[0].offsetTop + sections[0].offsetHeight / 2));
+      sections.forEach(section => {
+        const sectionMiddle = section.offsetTop + (section.offsetHeight / 2);
+        const distance = Math.abs(viewportMiddle - sectionMiddle);
+        if (distance < minDistance) { minDistance = distance; closestSection = section; }
+      });
+      const currentSection = closestSection.id;
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('data-section') === currentSection) item.classList.add('active');
+      });
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.querySelector('.scroll-progress-bar').style.width = scrolled + '%';
+    }
+
+    // Música y eventos
+    const bgMusic = document.getElementById('bg-music');
+    const muteBtn = document.getElementById('mute-btn');
+    const bgStartAudio = document.getElementById('bg-start-audio');
+    const bgStartAudioH1 = bgStartAudio.querySelector('h1');
+    const appContainer = document.querySelector('.app-container');
+    bgMusic.volume = 0.075;
+    function playBgAudio() {
+      bgStartAudio.style.pointerEvents = 'none';
+      bgStartAudio.style.opacity = '0';
+      bgStartAudioH1.style.opacity = '0';
+      setTimeout(() => {
+        document.body.style.overflowY = 'auto';
+        appContainer.classList.add('animate-in');
+        muteBtn.classList.add('animate-in');
+      }, 100);
+      bgMusic.play().catch(e => console.log("Autoplay failed:", e));
+    }
+    muteBtn.addEventListener('click', () => {
+      bgMusic.muted = !bgMusic.muted;
+      muteBtn.innerHTML = bgMusic.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
     });
-</script>
+    document.addEventListener('click', playBgAudio, { once: true });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeProfile();
+
+      // Sección "CURRENTLY" dentro de About myself (solo DynamicPvP, MinePet, Sololegends)
+      const bioGrid = document.querySelector('.bio-staff-section .bio-staff-grid');
+      if (bioGrid) {
+        bioGrid.className = 'staff-grid';
+        CONFIG.currentlyDisplay.forEach(server => {
+          const card = document.createElement('div');
+          card.className = 'server-card';
+          card.addEventListener('click', () => window.open(server.imgurLink, '_blank'));
+          card.innerHTML = `<div class="server-info"><h4>${server.serverName}</h4><div class="server-role">${server.role}</div></div>`;
+          if (server.color) {
+            const roleEl = card.querySelector('.server-role');
+            roleEl.style.background = hexToRgba(server.color, 0.1);
+            roleEl.style.borderColor = hexToRgba(server.color, 0.2);
+            roleEl.style.color = server.color;
+          }
+          bioGrid.appendChild(card);
+        });
+      }
+
+      // LINKS
+      createGenericCards('.bio-links-grid', CONFIG.links);
+
+      // Staff Experience: "Experiencia actual" con todos (incluyendo Demon Bypass)
+      createCategory('staffCurrentContainer', 'Experiencia actual', 'fa-solid fa-fire', CONFIG.currentServersFull);
+
+      // No se genera "Experiencia previa" porque pastServers está vacío
+
+      // Navegación por panel
+      document.querySelectorAll('.panel-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const sectionId = item.getAttribute('data-section');
+          if (sectionId === 'profileBio') window.scrollTo({ top: 0, behavior: 'smooth' });
+          else document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      window.addEventListener('scroll', highlightActiveSection);
+      highlightActiveSection();
+    });
+  </script>
 </body>
+
 </html>
