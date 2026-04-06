@@ -7,7 +7,7 @@
   <title>Roxii · Screensharer & Staff</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* ========== ESTILOS (exactamente igual que antes, sin cambios) ========== */
+    /* ========== ESTILOS (sin cambios, los mismos que ya funcionaban) ========== */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
     :root {
@@ -177,14 +177,13 @@
         <div class="bio-text" style="background: #111; padding: 1rem; border-radius: 12px; margin-bottom: 2rem;">
           • Moderación excelente<br>• Gestión de equipos<br>• Creación de sistemas avanzados y normativos<br>• Pasión y conocimientos en revisión de PC
         </div>
-        <div id="staffCurrentContainer"></div>   <!-- Aquí se genera "Experiencia actual" (con todos + Demon Bypass) -->
-        <!-- No se genera "Experiencia previa" porque la hemos vaciado -->
+        <div id="staffCurrentContainer"></div>   <!-- Aquí se genera "Experiencia actual" con todos los servidores -->
       </section>
     </div>
   </div>
 
   <script>
-    // ========== CONFIGURACIÓN ACTUALIZADA ==========
+    // ========== CONFIGURACIÓN ACTUALIZADA CON MINEWAR (link corregido) ==========
     const CONFIG = {
       profile: {
         name: "Roxii",
@@ -192,22 +191,23 @@
         subtitle: "Screensharer",
       },
       // Lista completa para "Experiencia actual" (dentro de Staff Experience)
-      // Incluye todos los servidores actuales + Demon Bypass
       currentServersFull: [
         { serverName: "GGCRAFT", role: "Coordinador & SS Manager", color: "#ff5e5e", imgurLink: "https://imgur.com/a/bRbq5QP" },
         { serverName: "MinePet", role: "Senior Admin & SS Coordinator", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
         { serverName: "DynamicPvP", role: "Mod+ & SS Verified", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
         { serverName: "Sololegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
         { serverName: "SSA", role: "Staff", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
-        { serverName: "Demon Bypass", role: "HEADQUARTERS", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" }
+        { serverName: "Demon Bypass", role: "HEADQUARTERS", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
+        { serverName: "MineNIGHT", role: "Mod & SS Coordinator", color: "#0088ff", imgurLink: "https://imgur.com/a/IkLu1Qj" },
+        { serverName: "MineWAR", role: "Head of SS & MANAGER", color: "#FFD700", imgurLink: "https://imgur.com/a/6fQYyJJ" }  // <-- Link corregido
       ],
-      // Lista para la sección "CURRENTLY" dentro de About myself (solo DynamicPvP, MinePet, Sololegends)
+      // Lista para la sección "CURRENTLY" dentro de About myself
       currentlyDisplay: [
         { serverName: "DynamicPvP", role: "Mod+ & SS Verified", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
         { serverName: "MinePet", role: "Senior Admin & SS Coordinator", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
-        { serverName: "Sololegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" }
+        { serverName: "Sololegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
+        { serverName: "MineNIGHT", role: "Mod & SS Coordinator", color: "#0088ff", imgurLink: "https://imgur.com/a/IkLu1Qj" }
       ],
-      // Experiencia previa: vacío (se han eliminado Hollow Bypass, PCASVC.EXE, PhaseMC)
       pastServers: [],
       links: [
         { name: "Discord", role: "whoisroxii", icon: "fa-brands fa-discord", color: "#5865F2", link: "https://discord.com/users/whoisroxii" },
@@ -276,7 +276,6 @@
       document.getElementById('profileSubtitle').innerHTML = `<i class="fa-solid fa-magnifying-glass" style="transform: scaleX(-1);"></i> ${CONFIG.profile.subtitle}`;
     }
 
-    // Resaltado de sección y barra de progreso
     function highlightActiveSection() {
       const sections = document.querySelectorAll('.section');
       const navItems = document.querySelectorAll('.panel-item');
@@ -326,7 +325,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       initializeProfile();
 
-      // Sección "CURRENTLY" dentro de About myself (solo DynamicPvP, MinePet, Sololegends)
+      // Sección "CURRENTLY" dentro de About myself
       const bioGrid = document.querySelector('.bio-staff-section .bio-staff-grid');
       if (bioGrid) {
         bioGrid.className = 'staff-grid';
@@ -348,10 +347,8 @@
       // LINKS
       createGenericCards('.bio-links-grid', CONFIG.links);
 
-      // Staff Experience: "Experiencia actual" con todos (incluyendo Demon Bypass)
+      // Staff Experience: "Experiencia actual" con todos (incluyendo MineWAR con link corregido)
       createCategory('staffCurrentContainer', 'Experiencia actual', 'fa-solid fa-fire', CONFIG.currentServersFull);
-
-      // No se genera "Experiencia previa" porque pastServers está vacío
 
       // Navegación por panel
       document.querySelectorAll('.panel-item').forEach(item => {
