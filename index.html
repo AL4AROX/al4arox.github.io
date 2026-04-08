@@ -7,7 +7,7 @@
   <title>Roxii · Screensharer & Staff</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* ========== ESTILOS (sin cambios, los mismos que ya funcionaban) ========== */
+    /* ========== ESTILOS (los mismos de antes, solo añado ocultar reproductor) ========== */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
     :root {
@@ -28,6 +28,16 @@
       --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
       --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
       --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
+
+    /* Reproductor de YouTube oculto */
+    .youtube-hidden {
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
     }
 
     .app-container.animate-in,
@@ -140,8 +150,23 @@
 </head>
 
 <body>
+  <!-- Pantalla de inicio "Click Anywhere" -->
   <div id="bg-start-audio"><h1>Click Anywhere</h1></div>
-  <audio id="bg-music" loop autoplay><source src="song.mp3" type="audio/mp3"></audio>
+  
+  <!-- Reproductor de YouTube oculto (no se ve) -->
+  <div class="youtube-hidden">
+    <iframe 
+      id="youtubePlayer"
+      width="0" 
+      height="0" 
+      src="https://www.youtube.com/embed/RHUKLQ6nWpc?enablejsapi=1&modestbranding=1&rel=0&showinfo=0&controls=0"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- Botón de mute (altavoz) -->
   <button id="mute-btn"><i class="fa-solid fa-volume-high"></i></button>
   <div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
 
@@ -153,7 +178,6 @@
     </aside>
 
     <div class="main-content">
-      <!-- Sección About myself -->
       <section class="section" id="profileBio">
         <div class="section-header"><div class="section-icon"><i class="fa-solid fa-user"></i></div><span>About myself</span></div>
         <div class="hero-content">
@@ -171,42 +195,40 @@
         </div>
       </section>
 
-      <!-- Sección Staff Experience -->
       <section class="section" id="staffExperience">
         <div class="section-header"><div class="section-icon">⚒️</div><span>Staff Experience</span></div>
         <div class="bio-text" style="background: #111; padding: 1rem; border-radius: 12px; margin-bottom: 2rem;">
           • Moderación excelente<br>• Gestión de equipos<br>• Creación de sistemas avanzados y normativos<br>• Pasión y conocimientos en revisión de PC
         </div>
-        <div id="staffCurrentContainer"></div>   <!-- Aquí se genera "Experiencia actual" con todos los servidores -->
+        <div id="staffCurrentContainer"></div>
       </section>
     </div>
   </div>
 
   <script>
-    // ========== CONFIGURACIÓN ACTUALIZADA CON MINEWAR (link corregido) ==========
+    // ========== CONFIGURACIÓN CON NOMBRES CORREGIDOS Y FECHAS ==========
     const CONFIG = {
       profile: {
         name: "Roxii",
         avatar: "https://i.imgur.com/C58UOeP.png",
         subtitle: "Screensharer",
       },
-      // Lista completa para "Experiencia actual" (dentro de Staff Experience)
       currentServersFull: [
-        { serverName: "GGCRAFT", role: "Coordinador & SS Manager", color: "#ff5e5e", imgurLink: "https://imgur.com/a/bRbq5QP" },
-        { serverName: "MinePet", role: "Senior Admin & SS Coordinator", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
-        { serverName: "DynamicPvP", role: "Mod+ & SS Verified", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
-        { serverName: "Sololegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
-        { serverName: "SSA", role: "Staff", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
-        { serverName: "Demon Bypass", role: "HEADQUARTERS", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
-        { serverName: "MineNIGHT", role: "Mod & SS Coordinator", color: "#0088ff", imgurLink: "https://imgur.com/a/IkLu1Qj" },
-        { serverName: "MineWAR", role: "Head of SS & MANAGER", color: "#FFD700", imgurLink: "https://imgur.com/a/6fQYyJJ" }  // <-- Link corregido
+        { serverName: "GGCRAFT", role: "Coordinador & SS Manager", year: "2025", color: "#ff5e5e", imgurLink: "https://imgur.com/a/bRbq5QP" },
+        { serverName: "Minepet", role: "Senior Admin & SS Coordinator", year: "2026", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
+        { serverName: "DynamicPvP", role: "Mod+ & SS Verified", year: "2025 - 2026", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
+        { serverName: "SoloLegends", role: "Mod & SS Verified", year: "2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
+        { serverName: "SSA", role: "Staff", year: "2025 - 2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
+        { serverName: "Demon Bypass", role: "HEADQUARTERS", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
+        { serverName: "Minenight", role: "Mod & SS Coordinator", year: "2026", color: "#0088ff", imgurLink: "https://imgur.com/a/IkLu1Qj" },
+        { serverName: "Minewar", role: "Head of SS & MANAGER", year: "2025", color: "#FFD700", imgurLink: "https://imgur.com/a/6fQYyJJ" },
+        { serverName: "PotPvP", role: "Admin & SS Trainer", year: "2026", color: "#e74c3c", imgurLink: "https://imgur.com/a/yK9B0yP" }
       ],
-      // Lista para la sección "CURRENTLY" dentro de About myself
       currentlyDisplay: [
         { serverName: "DynamicPvP", role: "Mod+ & SS Verified", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
-        { serverName: "MinePet", role: "Senior Admin & SS Coordinator", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
-        { serverName: "Sololegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
-        { serverName: "MineNIGHT", role: "Mod & SS Coordinator", color: "#0088ff", imgurLink: "https://imgur.com/a/IkLu1Qj" }
+        { serverName: "SoloLegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
+        { serverName: "Demon Bypass", role: "HEADQUARTERS", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
+        { serverName: "PotPvP", role: "Admin & SS Trainer", color: "#e74c3c", imgurLink: "https://imgur.com/a/yK9B0yP" }
       ],
       pastServers: [],
       links: [
@@ -216,7 +238,6 @@
       ]
     };
 
-    // Funciones auxiliares (igual que antes)
     function hexToRgba(hex, alpha) {
       let c = hex.replace('#', '');
       if (c.length === 3) c = c.split('').map(x => x + x).join('');
@@ -298,13 +319,60 @@
       document.querySelector('.scroll-progress-bar').style.width = scrolled + '%';
     }
 
-    // Música y eventos
-    const bgMusic = document.getElementById('bg-music');
+    // --- Música con YouTube oculto y autoplay al hacer clic ---
     const muteBtn = document.getElementById('mute-btn');
+    let playerReady = false;
+    let ytPlayer = null;
+
+    // Cargar la API de YouTube
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    window.onYouTubeIframeAPIReady = function() {
+      ytPlayer = new YT.Player('youtubePlayer', {
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    };
+
+    function onPlayerReady(event) {
+      playerReady = true;
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      }
+    }
+
+    function startMusic() {
+      if (playerReady && ytPlayer) {
+        ytPlayer.playVideo();
+      }
+    }
+
+    muteBtn.addEventListener('click', () => {
+      if (playerReady && ytPlayer) {
+        const state = ytPlayer.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+          ytPlayer.pauseVideo();
+        } else if (state === YT.PlayerState.PAUSED || state === YT.PlayerState.ENDED) {
+          ytPlayer.playVideo();
+        }
+      }
+    });
+
+    // --- Pantalla de inicio "Click Anywhere" ---
     const bgStartAudio = document.getElementById('bg-start-audio');
     const bgStartAudioH1 = bgStartAudio.querySelector('h1');
     const appContainer = document.querySelector('.app-container');
-    bgMusic.volume = 0.075;
+
     function playBgAudio() {
       bgStartAudio.style.pointerEvents = 'none';
       bgStartAudio.style.opacity = '0';
@@ -314,18 +382,15 @@
         appContainer.classList.add('animate-in');
         muteBtn.classList.add('animate-in');
       }, 100);
-      bgMusic.play().catch(e => console.log("Autoplay failed:", e));
+      startMusic(); // Aquí se inicia la música automáticamente tras el clic
     }
-    muteBtn.addEventListener('click', () => {
-      bgMusic.muted = !bgMusic.muted;
-      muteBtn.innerHTML = bgMusic.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
-    });
+
     document.addEventListener('click', playBgAudio, { once: true });
 
+    // --- Carga del contenido ---
     document.addEventListener('DOMContentLoaded', () => {
       initializeProfile();
 
-      // Sección "CURRENTLY" dentro de About myself
       const bioGrid = document.querySelector('.bio-staff-section .bio-staff-grid');
       if (bioGrid) {
         bioGrid.className = 'staff-grid';
@@ -344,13 +409,9 @@
         });
       }
 
-      // LINKS
       createGenericCards('.bio-links-grid', CONFIG.links);
-
-      // Staff Experience: "Experiencia actual" con todos (incluyendo MineWAR con link corregido)
       createCategory('staffCurrentContainer', 'Experiencia actual', 'fa-solid fa-fire', CONFIG.currentServersFull);
 
-      // Navegación por panel
       document.querySelectorAll('.panel-item').forEach(item => {
         item.addEventListener('click', (e) => {
           e.preventDefault();
