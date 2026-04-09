@@ -7,7 +7,7 @@
   <title>Roxii · Screensharer & Staff</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* ========== ESTILOS (los mismos de antes, solo añado ocultar reproductor) ========== */
+    /* ========== ESTILOS (exactamente igual que antes, sin cambios visuales) ========== */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
     :root {
@@ -28,16 +28,6 @@
       --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
       --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
       --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    }
-
-    /* Reproductor de YouTube oculto */
-    .youtube-hidden {
-      position: absolute;
-      width: 0;
-      height: 0;
-      opacity: 0;
-      pointer-events: none;
-      overflow: hidden;
     }
 
     .app-container.animate-in,
@@ -153,20 +143,12 @@
   <!-- Pantalla de inicio "Click Anywhere" -->
   <div id="bg-start-audio"><h1>Click Anywhere</h1></div>
   
-  <!-- Reproductor de YouTube oculto (no se ve) -->
-  <div class="youtube-hidden">
-    <iframe 
-      id="youtubePlayer"
-      width="0" 
-      height="0" 
-      src="https://www.youtube.com/embed/RHUKLQ6nWpc?enablejsapi=1&modestbranding=1&rel=0&showinfo=0&controls=0"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  </div>
+  <!-- Reproductor de audio HTML5 -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="song.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
 
-  <!-- Botón de mute (altavoz) -->
   <button id="mute-btn"><i class="fa-solid fa-volume-high"></i></button>
   <div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
 
@@ -200,37 +182,44 @@
         <div class="bio-text" style="background: #111; padding: 1rem; border-radius: 12px; margin-bottom: 2rem;">
           • Moderación excelente<br>• Gestión de equipos<br>• Creación de sistemas avanzados y normativos<br>• Pasión y conocimientos en revisión de PC
         </div>
-        <div id="staffCurrentContainer"></div>
+        <!-- Aquí se generarán las dos categorías: Minecraft y Discord -->
+        <div id="staffMinecraftContainer"></div>
+        <div id="staffDiscordContainer"></div>
       </section>
     </div>
   </div>
 
   <script>
-    // ========== CONFIGURACIÓN CON NOMBRES CORREGIDOS Y FECHAS ==========
+    // ========== CONFIGURACIÓN ACTUALIZADA CON DIVISIÓN MINECRAFT / DISCORD ==========
     const CONFIG = {
       profile: {
         name: "Roxii",
         avatar: "https://i.imgur.com/C58UOeP.png",
         subtitle: "Screensharer",
       },
-      currentServersFull: [
+      // Servidores de Minecraft (Experiencia actual)
+      minecraftServers: [
         { serverName: "GGCRAFT", role: "Coordinador & SS Manager", year: "2025", color: "#ff5e5e", imgurLink: "https://imgur.com/a/bRbq5QP" },
         { serverName: "Minepet", role: "Senior Admin & SS Coordinator", year: "2026", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
         { serverName: "DynamicPvP", role: "Mod+ & SS Verified", year: "2025 - 2026", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
         { serverName: "SoloLegends", role: "Mod & SS Verified", year: "2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
-        { serverName: "SSA", role: "Staff", year: "2025 - 2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
-        { serverName: "Demon Bypass", role: "HEADQUARTERS", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
-        { serverName: "Minenight", role: "Mod & SS Coordinator", year: "2026", color: "#0088ff", imgurLink: "https://imgur.com/a/IkLu1Qj" },
+        { serverName: "PotPvP", role: "Admin & SS Trainer", year: "2026", color: "#e74c3c", imgurLink: "https://imgur.com/a/yK9B0yP" },
         { serverName: "Minewar", role: "Head of SS & MANAGER", year: "2025", color: "#FFD700", imgurLink: "https://imgur.com/a/6fQYyJJ" },
-        { serverName: "PotPvP", role: "Admin & SS Trainer", year: "2026", color: "#e74c3c", imgurLink: "https://imgur.com/a/yK9B0yP" }
+        { serverName: "Minenight", role: "Mod & SS Coordinator", year: "2026", color: "#0088ff", imgurLink: "https://imgur.com/a/IkLu1Qj" }
       ],
+      // Servidores de Discord (Experiencia actual)
+      discordServers: [
+        { serverName: "Demon Bypass", role: "HEADQUARTERS", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
+        { serverName: "SSA", role: "Staff", year: "2025 - 2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
+        { serverName: "Italian TLHub", role: "Screensharer", year: "2026", color: "#ff5e5e", imgurLink: "https://imgur.com/a/FFabJXD" }
+      ],
+      // Lista para la sección "CURRENTLY" dentro de About myself (sin cambios)
       currentlyDisplay: [
         { serverName: "DynamicPvP", role: "Mod+ & SS Verified", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
         { serverName: "SoloLegends", role: "Mod & SS Verified", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
         { serverName: "Demon Bypass", role: "HEADQUARTERS", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
         { serverName: "PotPvP", role: "Admin & SS Trainer", color: "#e74c3c", imgurLink: "https://imgur.com/a/yK9B0yP" }
       ],
-      pastServers: [],
       links: [
         { name: "Discord", role: "whoisroxii", icon: "fa-brands fa-discord", color: "#5865F2", link: "https://discord.com/users/whoisroxii" },
         { name: "Email", role: "alvarox504@gmail.com", icon: "fa-solid fa-envelope", color: "#22c55e", link: "mailto:alvarox504@gmail.com" },
@@ -238,6 +227,7 @@
       ]
     };
 
+    // Funciones auxiliares
     function hexToRgba(hex, alpha) {
       let c = hex.replace('#', '');
       if (c.length === 3) c = c.split('').map(x => x + x).join('');
@@ -319,54 +309,27 @@
       document.querySelector('.scroll-progress-bar').style.width = scrolled + '%';
     }
 
-    // --- Música con YouTube oculto y autoplay al hacer clic ---
+    // --- Música con audio HTML5 ---
+    const bgMusic = document.getElementById('bg-music');
     const muteBtn = document.getElementById('mute-btn');
-    let playerReady = false;
-    let ytPlayer = null;
-
-    // Cargar la API de YouTube
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    window.onYouTubeIframeAPIReady = function() {
-      ytPlayer = new YT.Player('youtubePlayer', {
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    };
-
-    function onPlayerReady(event) {
-      playerReady = true;
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data === YT.PlayerState.PLAYING) {
-        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-      } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-        muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-      }
-    }
+    bgMusic.volume = 0.2;
 
     function startMusic() {
-      if (playerReady && ytPlayer) {
-        ytPlayer.playVideo();
-      }
+      bgMusic.play().catch(error => console.log("Error al reproducir:", error));
     }
 
     muteBtn.addEventListener('click', () => {
-      if (playerReady && ytPlayer) {
-        const state = ytPlayer.getPlayerState();
-        if (state === YT.PlayerState.PLAYING) {
-          ytPlayer.pauseVideo();
-        } else if (state === YT.PlayerState.PAUSED || state === YT.PlayerState.ENDED) {
-          ytPlayer.playVideo();
-        }
+      if (bgMusic.paused) {
+        bgMusic.play();
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      } else {
+        bgMusic.pause();
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
       }
     });
+
+    bgMusic.addEventListener('play', () => muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>');
+    bgMusic.addEventListener('pause', () => muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>');
 
     // --- Pantalla de inicio "Click Anywhere" ---
     const bgStartAudio = document.getElementById('bg-start-audio');
@@ -382,7 +345,7 @@
         appContainer.classList.add('animate-in');
         muteBtn.classList.add('animate-in');
       }, 100);
-      startMusic(); // Aquí se inicia la música automáticamente tras el clic
+      startMusic();
     }
 
     document.addEventListener('click', playBgAudio, { once: true });
@@ -391,6 +354,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       initializeProfile();
 
+      // Sección "CURRENTLY"
       const bioGrid = document.querySelector('.bio-staff-section .bio-staff-grid');
       if (bioGrid) {
         bioGrid.className = 'staff-grid';
@@ -409,9 +373,14 @@
         });
       }
 
+      // LINKS
       createGenericCards('.bio-links-grid', CONFIG.links);
-      createCategory('staffCurrentContainer', 'Experiencia actual', 'fa-solid fa-fire', CONFIG.currentServersFull);
 
+      // Staff Experience: dos categorías separadas (Minecraft y Discord)
+      createCategory('staffMinecraftContainer', 'Minecraft', 'fa-solid fa-cube', CONFIG.minecraftServers);
+      createCategory('staffDiscordContainer', 'Discord', 'fa-brands fa-discord', CONFIG.discordServers);
+
+      // Navegación
       document.querySelectorAll('.panel-item').forEach(item => {
         item.addEventListener('click', (e) => {
           e.preventDefault();
