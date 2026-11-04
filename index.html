@@ -1,666 +1,579 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Brawl Servicees — Rank Boosting</title>
-<meta name="description" content="Brawl Stars rank boosting by a full team. Starting-from pricing, secure process, direct communication in Discord.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #1c0f3d;
-    --bg-2: #150a2e;
-    --panel: #241456;
-    --panel-border: #0f0726;
-    --purple: #7c3fe4;
-    --yellow: #ffcc00;
-    --yellow-deep: #d6a600;
-    --pink: #ff3d7a;
-    --pink-deep: #c21957;
-    --blue: #29c5f6;
-    --blue-deep: #1690b8;
-    --green: #37e07d;
-    --green-deep: #1fa85c;
-    --ink: #fff9ec;
-    --ink-dim: #c3b6ec;
-    --radius-lg: 22px;
-    --radius-md: 14px;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roxii · Screensharer & Staff</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Plus Jakarta Sans',sans-serif;
-    min-height:100vh;
-    overflow-x:hidden;
-    position:relative;
-  }
-  body::before{
-    content:"";
-    position:fixed;inset:0;z-index:-2;
-    background:
-      radial-gradient(circle at 15% 10%, rgba(255,204,0,.14) 0%, transparent 35%),
-      radial-gradient(circle at 90% 8%, rgba(255,61,122,.16) 0%, transparent 38%),
-      radial-gradient(circle at 85% 85%, rgba(41,197,246,.14) 0%, transparent 40%),
-      radial-gradient(circle at 10% 85%, rgba(124,63,228,.22) 0%, transparent 42%),
-      var(--bg);
-  }
-
-  h1,h2,h3,h4{font-family:'Fredoka',sans-serif;font-weight:600;}
-  ::selection{background:var(--yellow);color:#241356;}
-  a{color:inherit;}
-
-  .eyebrow{
-    display:inline-block;
-    font-weight:800;
-    font-size:.75rem;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--bg);
-    background:var(--yellow);
-    padding:5px 14px;
-    border-radius:999px;
-    box-shadow:0 4px 0 var(--yellow-deep);
-  }
-
-  /* ===== FLOATING CONFETTI ===== */
-  .confetti-field{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
-  .confetto{
-    position:absolute;top:-6%;
-    border-radius:3px;
-    opacity:.55;
-    animation:drop linear infinite, spin linear infinite;
-  }
-  .confetto.c1{background:var(--yellow);}
-  .confetto.c2{background:var(--pink);}
-  .confetto.c3{background:var(--blue);}
-  .confetto.c4{background:var(--green);}
-  @keyframes drop{ to{ transform:translateY(120vh); } }
-  @keyframes spin{ to{ transform:rotate(360deg); } }
-
-  /* ===== NAV ===== */
-  nav{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:16px 7%;position:sticky;top:0;z-index:200;
-    background:rgba(21,10,46,.88);
-    backdrop-filter:blur(14px);
-    border-bottom:4px solid var(--panel-border);
-  }
-  .logo{
-    font-size:1.5rem;font-weight:700;color:var(--yellow);
-    text-shadow:2px 2px 0 var(--panel-border);
-    letter-spacing:.5px;
-  }
-  .nav-links{display:flex;gap:30px;list-style:none;}
-  .nav-links a{font-size:.9rem;font-weight:700;color:var(--ink-dim);text-decoration:none;transition:color .2s;}
-  .nav-links a:hover{color:var(--yellow);}
-  .nav-cta{
-    padding:11px 24px;border-radius:999px;
-    background:var(--pink);color:#fff;font-weight:800;font-size:.85rem;
-    text-decoration:none;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;
-    box-shadow:0 5px 0 var(--pink-deep);
-    transition:transform .15s, box-shadow .15s;
-  }
-  .nav-cta:hover{transform:translateY(2px);box-shadow:0 3px 0 var(--pink-deep);}
-  .nav-toggle{
-    display:none;background:var(--panel);border:2px solid var(--panel-border);color:var(--ink);
-    font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;
-    padding:8px 14px;border-radius:999px;cursor:pointer;
-  }
-  @media(max-width:900px){
-    .nav-links{
-      position:absolute;top:100%;left:0;right:0;
-      background:rgba(21,10,46,.98);
-      flex-direction:column;padding:20px 8%;gap:16px;
-      border-bottom:4px solid var(--panel-border);display:none;
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-tertiary: #111111;
+      --bg-card: #0f0f0f;
+      --accent-primary: #ff5e5e;
+      --accent-secondary: #b77cff;
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --text-tertiary: #71717a;
+      --border-primary: #1f1f23;
+      --border-secondary: #27272a;
+      --glow-primary: #ff5e5e;
+      --glow-secondary: #b77cff;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     }
-    .nav-links.open{display:flex;}
-    .nav-toggle{display:block;}
-  }
 
-  /* ===== HERO ===== */
-  .hero{max-width:980px;margin:0 auto;padding:70px 20px 20px;text-align:center;position:relative;z-index:1;}
-  .burst{
-    position:absolute;top:20px;left:50%;transform:translateX(-50%);
-    width:520px;height:520px;z-index:-1;
-    background:
-      repeating-conic-gradient(from 0deg, rgba(255,204,0,.10) 0deg 10deg, transparent 10deg 20deg);
-    border-radius:50%;
-    animation:spinSlow 60s linear infinite;
-  }
-  @keyframes spinSlow{ to{ transform:translateX(-50%) rotate(360deg); } }
-  .hero h1{
-    margin:20px 0 16px;
-    font-size:clamp(2.4rem,6vw,4rem);
-    line-height:1.1;
-    color:var(--ink);
-    text-shadow:3px 3px 0 var(--panel-border);
-  }
-  .hero h1 .pop{color:var(--yellow);text-shadow:3px 3px 0 var(--panel-border), 0 0 30px rgba(255,204,0,.4);}
-  .hero p.sub{color:var(--ink-dim);font-size:1.08rem;max-width:600px;margin:0 auto 30px;font-weight:500;}
-  .hero-ctas{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:28px;}
-  .btn-primary,.btn-ghost{
-    padding:16px 32px;border-radius:999px;font-weight:800;font-size:.95rem;
-    text-decoration:none;text-transform:uppercase;letter-spacing:.5px;display:inline-block;
-    transition:transform .15s, box-shadow .15s;
-  }
-  .btn-primary{background:var(--yellow);color:#241356;box-shadow:0 6px 0 var(--yellow-deep);}
-  .btn-primary:hover{transform:translateY(3px);box-shadow:0 3px 0 var(--yellow-deep);}
-  .btn-ghost{background:var(--panel);color:var(--ink);border:2px solid var(--panel-border);box-shadow:0 6px 0 var(--panel-border);}
-  .btn-ghost:hover{transform:translateY(3px);box-shadow:0 3px 0 var(--panel-border);}
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-secondary); }
 
-  .badge-row{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-bottom:10px;}
-  .badge-chip{
-    display:flex;align-items:center;gap:8px;
-    padding:10px 18px;border-radius:999px;
-    background:var(--panel);border:2px solid var(--panel-border);
-    font-size:.8rem;font-weight:700;color:var(--ink-dim);
-  }
-  .badge-chip .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
-  .badge-chip.b1 .dot{background:var(--green);}
-  .badge-chip.b2 .dot{background:var(--blue);}
-  .badge-chip.b3 .dot{background:var(--pink);}
+    .app-container.animate-in,
+    #mute-btn.animate-in { opacity: 1; }
+    .section { transition: transform 1s ease-out, opacity 1s ease-out; }
+    #staffExperience { transition-delay: 0.4s; }
 
-  /* ===== SECTIONS ===== */
-  .section-wrap{max-width:1080px;margin:0 auto;padding:80px 20px 0;position:relative;z-index:1;}
-  .section-head{text-align:center;margin-bottom:40px;}
-  .section-head .eyebrow{margin-bottom:14px;}
-  .section-head h2{font-size:2.1rem;color:var(--ink);text-shadow:2px 2px 0 var(--panel-border);}
-  .section-head p{color:var(--ink-dim);max-width:520px;margin:12px auto 0;font-size:.95rem;}
+    #mute-btn {
+      background: rgba(255,255,255,0.05);
+      position: fixed; top: 0; left: 0; z-index: 10000;
+      color: #fff; border: 2px solid rgba(255,255,255,0.8);
+      border-radius: .5rem; width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 8px; font-size: 18px; cursor: pointer;
+      opacity: 0; transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    #mute-btn:hover {
+      background: rgba(255,94,94,0.2);
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 20px rgba(255,94,94,0.4);
+      transform: scale(1.05);
+    }
 
-  /* ===== SERVICE CARDS (starting-from) ===== */
-  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;}
-  .service-card{
-    position:relative;
-    background:var(--panel);
-    border:3px solid var(--panel-border);
-    border-radius:var(--radius-lg);
-    padding:28px 24px 24px;
-    box-shadow:0 8px 0 var(--panel-border);
-    display:flex;flex-direction:column;justify-content:space-between;
-    transition:transform .15s;
-  }
-  .service-card:hover{transform:translateY(-4px);}
-  .service-card .ribbon{
-    position:absolute;top:-12px;right:16px;
-    background:var(--pink);color:#fff;font-weight:800;font-size:.65rem;
-    text-transform:uppercase;letter-spacing:.8px;
-    padding:5px 12px;border-radius:999px;
-    box-shadow:0 3px 0 var(--pink-deep);
-  }
-  .service-icon{
-    width:46px;height:46px;border-radius:50%;margin-bottom:14px;
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Fredoka',sans-serif;font-weight:700;font-size:1.1rem;color:#241356;
-  }
-  .service-card.i1 .service-icon{background:var(--yellow);box-shadow:0 4px 0 var(--yellow-deep);}
-  .service-card.i2 .service-icon{background:var(--blue);box-shadow:0 4px 0 var(--blue-deep);}
-  .service-card.i3 .service-icon{background:var(--pink);box-shadow:0 4px 0 var(--pink-deep);}
-  .service-card.i4 .service-icon{background:var(--green);box-shadow:0 4px 0 var(--green-deep);}
-  .service-card h3{font-size:1.25rem;margin-bottom:10px;color:var(--ink);}
-  .service-features{list-style:none;margin-bottom:20px;}
-  .service-features li{font-size:.86rem;color:var(--ink-dim);margin-bottom:6px;display:flex;gap:8px;}
-  .service-features li::before{content:"-";color:var(--yellow);font-weight:800;}
-  .service-foot{padding-top:14px;border-top:2px dashed var(--panel-border);}
-  .service-price-label{font-size:.68rem;letter-spacing:1px;text-transform:uppercase;color:var(--ink-dim);font-weight:700;}
-  .service-price{font-family:'Fredoka',sans-serif;font-size:1.5rem;color:var(--ink);margin:2px 0 14px;}
-  .service-price.ticket{font-size:1.05rem;color:var(--yellow);}
-  .service-cta{
-    display:block;text-align:center;padding:11px;border-radius:999px;
-    background:var(--yellow);color:#241356;font-weight:800;font-size:.8rem;
-    text-decoration:none;text-transform:uppercase;letter-spacing:.5px;
-    box-shadow:0 4px 0 var(--yellow-deep);transition:transform .15s, box-shadow .15s;
-  }
-  .service-cta:hover{transform:translateY(2px);box-shadow:0 2px 0 var(--yellow-deep);}
-  .pricing-note{text-align:center;margin-top:28px;font-size:.86rem;color:var(--ink-dim);}
-  .pricing-note a{color:var(--yellow);font-weight:800;text-decoration:none;}
+    #bg-start-audio {
+      position: fixed; top: 0; left: 0; z-index: 100000000;
+      background: #000; width: 100%; height: 100%;
+      justify-content: center; align-items: center; display: flex;
+      transition: opacity 0.3s ease-in-out; cursor: pointer; font-size: 15.2px;
+    }
+    #bg-start-audio h1 {
+      transition: opacity 0.05s ease-in-out; opacity: 1;
+      font-weight: 300; letter-spacing: 4px;
+      background: linear-gradient(90deg, #fff, #a1a1aa, #fff);
+      background-size: 200% auto;
+      background-clip: text; -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textGradient 3s linear infinite;
+    }
 
-  /* ===== RANK SELECT (interactive) ===== */
-  .rank-select-wrap{margin-bottom:6px;}
-  .rank-select-label{display:block;font-size:.68rem;letter-spacing:1px;text-transform:uppercase;color:var(--ink-dim);font-weight:700;margin-bottom:6px;}
-  .rank-select{
-    width:100%;padding:10px 12px;border-radius:10px;
-    background:rgba(0,0,0,.28);border:2px solid var(--panel-border);
-    color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.82rem;
-    outline:none;cursor:pointer;appearance:none;
-    background-image:linear-gradient(45deg,transparent 50%,var(--yellow) 50%),linear-gradient(135deg,var(--yellow) 50%,transparent 50%);
-    background-position:calc(100% - 18px) center,calc(100% - 13px) center;
-    background-size:5px 5px,5px 5px;background-repeat:no-repeat;
-    transition:border-color .2s;
-  }
-  .rank-select:hover,.rank-select:focus{border-color:var(--yellow);}
-  .rank-select option{background:var(--panel);color:var(--ink);}
-  .rank-select-note{margin-top:8px;font-size:.72rem;line-height:1.4;color:var(--ink-dim);}
-  .service-price.bump{animation:priceBump .35s ease;}
-  @keyframes priceBump{0%{transform:scale(1);}40%{transform:scale(1.18);color:var(--yellow);}100%{transform:scale(1);}}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary);
+      overflow-x: hidden; overflow-y: hidden; line-height: 1.6; font-size: 14px;
+      -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh;
+    }
+    .app-container { display: flex; width: 100vw; min-height: 100vh; opacity: 0; transition: opacity .5s ease-out; }
 
-  /* card tilt on pointer move */
-  .service-card{transform-style:preserve-3d;will-change:transform;}
+    .right-panel {
+      width: 280px;
+      background: rgba(15, 15, 15, 0.75);
+      border-left: 1px solid var(--border-primary);
+      padding: 1.5rem 0; display: flex; flex-direction: column; gap: 0.5rem;
+      position: fixed; top: 50%; right: 100px; transform: translateY(-50%);
+      height: auto; max-height: 80vh; overflow-y: auto; z-index: 100;
+      border-radius: 16px; backdrop-filter: blur(16px);
+      box-shadow: var(--shadow-xl); border: 1px solid var(--border-primary);
+      transition-delay: 0.2s;
+    }
+    .panel-header {
+      padding: 0 1.5rem 1rem 1.5rem; font-size: 0.85rem; font-weight: 700;
+      color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .panel-header i { font-size: 1rem; color: var(--text-secondary); }
+    .panel-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.75rem 1.5rem; border-radius: 8px 0 0 8px;
+      color: var(--text-secondary); font-weight: 500; cursor: pointer;
+      transition: all 0.25s ease; position: relative;
+    }
+    .panel-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+    .panel-item.active {
+      background: linear-gradient(90deg, var(--accent-primary), rgba(255,94,94,0.7));
+      color: var(--text-primary); font-weight: 600;
+      border-right: 4px solid var(--accent-secondary);
+      padding-right: calc(1.5rem - 4px); padding-left: 1.5rem;
+      box-shadow: 0 0 20px rgba(183, 124, 255, 0.35);
+    }
+    .panel-icon-wrapper {
+      width: 18px; display: inline-flex; align-items: center;
+      justify-content: center; font-size: 16px;
+    }
 
-  /* ===== STATS ===== */
-  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;}
-  .stat-card{
-    background:var(--panel);border:3px solid var(--panel-border);
-    border-radius:var(--radius-md);padding:22px 16px;text-align:center;
-    box-shadow:0 6px 0 var(--panel-border);
-  }
-  .stat-num{font-family:'Fredoka',sans-serif;font-weight:700;font-size:2.1rem;color:var(--yellow);text-shadow:2px 2px 0 var(--panel-border);}
-  .stat-label{margin-top:6px;font-size:.78rem;font-weight:700;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.5px;}
+    .main-content {
+      flex-grow: 1; padding: 2rem; display: flex;
+      flex-direction: column; align-items: center; margin-right: 200px;
+    }
+    .section {
+      background: var(--bg-card); border: 1px solid var(--border-primary);
+      border-radius: 16px; padding: 2rem; backdrop-filter: blur(20px);
+      position: relative; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden; max-width: 1000px; margin: 0 auto 40px auto;
+      width: 100%; scroll-margin-top: 20px;
+    }
+    .section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-secondary), transparent);
+      opacity: 0.6;
+    }
+    .section:last-child { margin-bottom: 0; }
+    #profileBio { margin-bottom: 100px !important; transition-delay: 0.3s; }
+    #profileName { margin-top: -0.3rem; }
 
-  /* ===== VOUCHES ===== */
-  .vouch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
-  .vouch-card{
-    background:var(--panel);border:3px solid var(--panel-border);
-    border-radius:var(--radius-md);padding:22px;
-    box-shadow:0 6px 0 var(--panel-border);
-    display:flex;flex-direction:column;gap:12px;
-  }
-  .vouch-stars{color:var(--yellow);font-size:.9rem;letter-spacing:2px;}
-  .vouch-quote{color:var(--ink);font-size:.9rem;line-height:1.5;font-style:italic;}
-  .vouch-foot{display:flex;align-items:center;justify-content:space-between;font-size:.78rem;color:var(--ink-dim);}
-  .vouch-foot .vouch-name{color:var(--ink);font-weight:800;}
-  .vouch-foot .vouch-tag{padding:3px 10px;border-radius:999px;background:rgba(41,197,246,.16);color:var(--blue);font-weight:800;font-size:.68rem;text-transform:uppercase;}
-  .vouch-card.add-vouch{border-style:dashed;align-items:center;justify-content:center;text-align:center;color:var(--ink-dim);font-size:.85rem;box-shadow:none;}
-  .vouch-card.add-vouch b{display:block;color:var(--ink);margin-bottom:4px;}
+    .section-header {
+      justify-content: center; display: flex; align-items: center;
+      gap: 0.75rem; margin-bottom: 2rem; font-size: 1.125rem;
+      font-weight: 700; color: var(--text-primary);
+    }
+    .section-icon { font-size: 1.25rem; }
+    .hero-content { position: relative; z-index: 2; text-align: center; }
 
-  /* ===== FAQ ===== */
-  .faq-item{background:var(--panel);border:3px solid var(--panel-border);border-radius:var(--radius-md);margin-bottom:12px;overflow:hidden;box-shadow:0 5px 0 var(--panel-border);}
-  .faq-q{width:100%;text-align:left;background:none;border:none;color:var(--ink);padding:18px 20px;font-size:.98rem;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:'Plus Jakarta Sans',sans-serif;}
-  .faq-q .icon-plus{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--yellow);color:#241356;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;transition:transform .25s;}
-  .faq-item.active .icon-plus{transform:rotate(45deg);}
-  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 20px;color:var(--ink-dim);font-size:.88rem;line-height:1.5;}
-  .faq-item.active .faq-a{max-height:220px;padding:0 20px 18px;}
+    .profile-wrapper { position: relative; display: inline-block; width: 150px; height: 150px; }
+    .profile-border {
+      width: 150px; height: 150px; border-radius: 50%;
+      background: conic-gradient(from 0deg, #ff5e5e, #b77cff, #5e9eff, #ff5e5e);
+      position: absolute; top: 0; left: 0; z-index: -1;
+      animation: rotate 10s linear infinite;
+      filter: blur(0.5px);
+    }
+    .profile-image {
+      width: 140px; height: 140px; border-radius: 50%;
+      background: var(--bg-secondary); display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 80px rgba(255, 94, 94, 0.45);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%); z-index: 1;
+    }
+    .profile-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: var(--bg-secondary); display: flex; align-items: center;
+      justify-content: center; overflow: hidden;
+    }
+    .profile-inner img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
-  /* ===== CONTACT ===== */
-  .contact-section{
-    max-width:600px;margin:0 auto;padding:34px;
-    background:var(--panel);border:3px solid var(--panel-border);
-    border-radius:var(--radius-lg);text-align:center;
-    box-shadow:0 8px 0 var(--panel-border);
-  }
-  .contact-section h3{font-size:1.5rem;margin-bottom:8px;color:var(--ink);}
-  .contact-section p{color:var(--ink-dim);font-size:.88rem;margin-bottom:20px;}
-  .input-group{display:flex;flex-direction:column;gap:12px;}
-  .input-group input{padding:14px 18px;border-radius:10px;border:2px solid var(--panel-border);background:rgba(0,0,0,.25);color:#fff;font-size:1rem;outline:none;text-align:center;}
-  .input-group input:focus{border-color:var(--yellow);}
-  .btn-submit{padding:14px;border-radius:10px;border:none;background:var(--yellow);color:#241356;font-weight:800;font-size:.9rem;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;box-shadow:0 5px 0 var(--yellow-deep);transition:transform .15s, box-shadow .15s;}
-  .btn-submit:hover{transform:translateY(2px);box-shadow:0 3px 0 var(--yellow-deep);}
-  #discord-result{display:none;margin-top:20px;padding:18px;background:rgba(41,197,246,.1);border:2px solid var(--blue);border-radius:12px;}
-  #discord-result.show{display:block;animation:fadeUp .4s ease forwards;}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-  .btn-discord-final{display:inline-block;margin-top:12px;padding:12px 24px;background:#5865F2;color:#fff;text-decoration:none;font-weight:800;border-radius:8px;text-transform:uppercase;letter-spacing:.4px;box-shadow:0 4px 0 #3a45c9;}
-  .contact-alt{margin-top:16px;font-size:.8rem;color:var(--ink-dim);}
-  .contact-alt a{color:var(--yellow);text-decoration:none;font-weight:800;}
+    .subtitle {
+      margin-top: 0.25rem; margin-bottom: 0.25rem;
+      font-size: 1.25rem; color: var(--text-secondary); font-weight: 500;
+    }
+    .bio-tabs { margin-top: 0; }
+    .bio-tab { margin-bottom: 0.5rem; }
 
-  footer{text-align:center;padding:34px 20px;margin-top:90px;border-top:4px solid var(--panel-border);color:var(--ink-dim);font-size:.82rem;position:relative;z-index:1;}
-  footer .foot-links{margin-top:8px;}
-  footer .foot-links a{color:var(--ink-dim);text-decoration:none;margin:0 8px;}
-  footer .foot-links a:hover{color:var(--yellow);}
+    .staff-category { margin: 20px auto; max-width: 1000px; }
+    .staff-category h3 {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 1rem; margin-bottom: 1.2rem; padding-left: 0;
+      font-weight: 600; letter-spacing: 0.3px;
+    }
+    .staff-category h3 i {
+      color: var(--accent-primary);
+      font-size: 0.9rem;
+    }
 
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease;}
-  .reveal.visible{opacity:1;transform:translateY(0);}
+    .staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 
-  @media (prefers-reduced-motion: reduce){
-    .reveal{opacity:1 !important;transform:none !important;transition:none !important;}
-    .confetto,.burst{animation:none !important;display:none;}
-  }
-  a:focus-visible, button:focus-visible, input:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;}
-</style>
+    .server-card {
+      background: var(--bg-tertiary); border: 1px solid var(--border-primary);
+      border-radius: 12px; padding: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative; overflow: hidden; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; height: 120px; justify-content: center;
+      opacity: 0; transform: translateY(10px);
+      animation: fadeInUp 0.5s ease forwards;
+    }
+    .server-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #ff5e5e, #b77cff);
+      transform: scaleX(0); transition: transform 0.4s ease;
+    }
+    .server-card:hover::before { transform: scaleX(1); }
+    .server-card:hover {
+      border-color: var(--border-secondary);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 12px 25px -5px rgba(0,0,0,0.5), 0 0 20px rgba(255,94,94,0.08);
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .server-info h4 {
+      font-size: 1.125rem; font-weight: 600; color: var(--text-primary);
+      margin-bottom: 0.5rem; display: flex; align-items: center;
+      justify-content: center; text-align: center;
+    }
+    .server-role {
+      background: #10b9811a; color: #10b981; border: 1px solid #10b98133;
+      padding: 0.375rem 0.75rem; border-radius: 6px; font-size: 0.72rem;
+      font-weight: 600; display: inline-block; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-top: 0.25rem;
+      transition: all 0.3s ease;
+    }
+    .server-card:hover .server-role {
+      transform: scale(1.04);
+    }
+    .server-year {
+      color: var(--text-tertiary); font-size: 0.8rem;
+      margin-top: 0.1rem; margin-bottom: 0.3rem; line-height: 1;
+    }
+
+    .bio-details { text-align: left; margin-top: 1.5rem; color: var(--text-secondary); }
+    .bio-staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; width: 100%; }
+    .bio-links-section { margin-top: 2rem; width: 100%; }
+    .bio-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
+    .bio-staff-title {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.5rem; font-size: 1rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 1rem;
+    }
+
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes textGradient { 0% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: -2;
+      background: repeating-linear-gradient(180deg,
+        #ff5e5e 0%, #b77cff 20%, #5e9eff 50%, #b77cff 80%, #ff5e5e 100%);
+      background-size: 100% 300%; background-repeat: repeat-y;
+      animation: backgroundFlow 18s linear infinite;
+      opacity: 0.35;
+      filter: blur(30px);
+    }
+    @keyframes backgroundFlow { from { background-position: 0 0; } to { background-position: 0 300%; } }
+
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+      background: transparent; z-index: 1000;
+    }
+    .scroll-progress-bar {
+      height: 100%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      width: 0%; transition: width 0.2s ease;
+      box-shadow: 0 0 10px var(--accent-primary);
+    }
+
+    @media (max-width: 1024px) { .right-panel { right: 20px; width: 290px; } .main-content { margin-right: 270px; } }
+    @media (max-width: 768px) {
+      .app-container { flex-direction: column; }
+      .right-panel {
+        width: 100%; height: auto; position: relative; top: 0; right: 0;
+        transform: none; max-height: none; margin-bottom: 1rem;
+        border-left: none; border-bottom: 1px solid var(--border-primary);
+        flex-direction: row; justify-content: center; flex-wrap: wrap;
+        padding: 1rem; border-radius: 0;
+      }
+      .panel-item { flex: 1 1 auto; max-width: 150px; justify-content: center; border-radius: 8px; padding-left: 1.5rem; }
+      .panel-item.active { border-left: none; border-right: none; padding-left: 1.5rem; padding-right: 1.5rem; }
+      .main-content { padding: 1rem; margin-right: 0; }
+      .section { max-width: 100%; margin: 20px auto; padding: 1.5rem; }
+      .staff-grid { grid-template-columns: 1fr; }
+      .panel-header { display: none; }
+      .bio-links-grid { grid-template-columns: 1fr; }
+    }
+    ::selection { background: var(--accent-primary); color: #fff; }
+  </style>
 </head>
+
 <body>
+  <div id="bg-start-audio"><h1>Click Anywhere</h1></div>
+  
+  <audio id="bg-music" loop preload="auto">
+    <source src="song.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
 
-<div class="confetti-field" id="confettiField" aria-hidden="true"></div>
+  <button id="mute-btn"><i class="fa-solid fa-volume-high"></i></button>
+  <div class="scroll-progress"><div class="scroll-progress-bar"></div></div>
 
-<nav>
-  <div class="logo">Brawl Servicees</div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#vouches">Vouches</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer" class="nav-cta">Discord</a>
-  <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">Menu</button>
-</nav>
+  <div class="app-container">
+    <aside class="right-panel">
+      <div class="panel-header" style="justify-content: center;"><i class="fa-solid fa-list"></i></div>
+      <div class="panel-item active" data-section="profileBio">
+        <span class="panel-icon-wrapper"><i class="fa-solid fa-user"></i></span><span>About myself</span>
+      </div>
+      <div class="panel-item" data-section="staffExperience">
+        <span class="panel-icon-wrapper"><i class="fa-solid fa-briefcase"></i></span><span>Staff Experience</span>
+      </div>
+    </aside>
 
-<main>
-<!-- HERO -->
-<section class="hero">
-  <div class="burst" aria-hidden="true"></div>
-  <span class="eyebrow">Brawl Stars Boosting Team</span>
-  <h1>Rise through <span class="pop">every rank.</span></h1>
-  <p class="sub">A full team of boosters pushing your Brawl Stars account, tier by tier, straight through Discord.</p>
-  <div class="hero-ctas">
-    <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer" class="btn-primary">Order on Discord</a>
-    <a href="#services" class="btn-ghost">See services</a>
-  </div>
-  <div class="badge-row reveal">
-    <div class="badge-chip b1"><span class="dot"></span>Boosters only</div>
-    <div class="badge-chip b2"><span class="dot"></span>Direct Discord support</div>
-    <div class="badge-chip b3"><span class="dot"></span>Account stays secure</div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section class="section-wrap" id="services">
-  <div class="section-head reveal">
-    <span class="eyebrow">Pick your goal</span>
-    <h2>Boosting Services</h2>
-    <p>Prices shown are starting points. Tell us your current rank and target in Discord and we'll send an exact quote in minutes.</p>
-  </div>
-
-  <div class="services-grid">
-    <div class="service-card i1 reveal">
-      <span class="ribbon">Most popular</span>
-      <div>
-        <div class="service-icon">R</div>
-        <h3>Ranked Push</h3>
-        <ul class="service-features">
-          <li>Diamond to Masters</li>
-          <li>Solo, duo or trio account</li>
-          <li>Safe, direct process</li>
-        </ul>
-        <div class="rank-select-wrap">
-          <label for="rankSelect" class="rank-select-label">Pick your tier jump</label>
-          <select id="rankSelect" class="rank-select">
-            <option data-price="2">Diamond → Mythic</option>
-            <option data-price="4">Mythic → Legendary</option>
-            <option data-price="9">Legendary → Masters</option>
-            <option data-price="0" disabled style="color:#37e07d;">Masters → Pro - in tickets</option>
-          </select>
-          <p class="rank-select-note">Only Diamond and up can be boosted. Full per-tier pricing confirmed in Discord.</p>
+    <div class="main-content">
+      <section class="section" id="profileBio">
+        <div class="section-header">
+          <div class="section-icon"><i class="fa-solid fa-user"></i></div><span>About myself</span>
         </div>
-      </div>
-      <div class="service-foot">
-        <div class="service-price-label">Starting from</div>
-        <div class="service-price" id="rankPrice">$7</div>
-        <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer" class="service-cta">Order</a>
-      </div>
-    </div>
+        <div class="hero-content">
+          <div class="profile-wrapper">
+            <div class="profile-border"></div>
+            <div class="profile-image"><div class="profile-inner" id="profileAvatar"></div></div>
+          </div>
+          <h1 id="profileName" style="
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff5e5e 0%, #b77cff 25%, #5e9eff 50%, #b77cff 75%, #ff5e5e 100%);
+            background-size: 200% auto; background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 0; letter-spacing: -0.02em;
+            animation: textGradient 3s linear infinite;
+            position: relative; background-position: 0% 50%;
+          "></h1>
+          <p class="subtitle" id="profileSubtitle"></p>
+          <div class="bio-tabs">
+            <div class="bio-tab"><strong>Age:</strong> 13 y/o</div>
+            <div class="bio-tab"><strong>Place:</strong> España</div>
+            <div class="bio-tab"><strong>Occupation:</strong> Estudiante (Secundaria) • Screensharer</div>
 
-    <div class="service-card i2 reveal">
-      <div>
-        <div class="service-icon">W</div>
-        <h3>Winstreak Boost</h3>
-        <ul class="service-features">
-          <li>Protect or build a streak</li>
-          <li>Any rank, any mode</li>
-          <li>Fast session turnaround</li>
-        </ul>
-      </div>
-      <div class="service-foot">
-        <div class="service-price-label">Starting from</div>
-        <div class="service-price">$10</div>
-        <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer" class="service-cta">Order</a>
-      </div>
-    </div>
+            <!-- CURRENTLY restaurado (con Screenshare Syndicate) -->
+            <div class="bio-staff-section">
+              <h3 class="bio-staff-title"><i class="fa-solid fa-user-clock"></i> CURRENTLY</h3>
+              <div class="bio-staff-grid"></div>
+            </div>
 
-    <div class="service-card i3 reveal">
-      <div>
-        <div class="service-icon">P</div>
-        <h3>Prestige Push</h3>
-        <ul class="service-features">
-          <li>Prestige levels, any rank</li>
-          <li>Priced per level</li>
-          <li>Ask in Discord for full pricing</li>
-        </ul>
-      </div>
-      <div class="service-foot">
-        <div class="service-price-label">Starting from</div>
-        <div class="service-price">$5</div>
-        <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer" class="service-cta">Order</a>
-      </div>
-    </div>
+            <div class="bio-links-section">
+              <h3 class="bio-staff-title"><i class="fa-solid fa-link"></i> LINKS</h3>
+              <div class="bio-links-grid"></div>
+            </div>
+          </div>
+          <div class="bio-details" id="bioDetailsContent">
+            <i class="fa-solid fa-quote-left" style="margin-right: 8px; color:#ff5e5e;"></i> "Los Gangsters también lloran"
+          </div>
+        </div>
+      </section>
 
-    <div class="service-card i4 reveal">
-      <span class="ribbon">Custom</span>
-      <div>
-        <div class="service-icon">M</div>
-        <h3>Matcherino</h3>
-        <ul class="service-features">
-          <li>Solo or team runs</li>
-          <li>Handled by top boosters</li>
-          <li>Custom ticket quote</li>
-        </ul>
-      </div>
-      <div class="service-foot">
-        <div class="service-price-label">Pricing</div>
-        <div class="service-price ticket">In ticket</div>
-        <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer" class="service-cta">Order in ticket</a>
-      </div>
+      <section class="section" id="staffExperience">
+        <div class="section-header">
+          <div class="section-icon"><i class="fa-solid fa-briefcase"></i></div><span>Staff Experience</span>
+        </div>
+        <div class="bio-text" style="background: #111; padding: 1rem; border-radius: 12px; margin-bottom: 2rem; border-left: 3px solid var(--accent-primary);">
+          • Moderación excelente<br>• Gestión de equipos<br>• Creación de sistemas avanzados y normativos<br>• Pasión y conocimientos en revisión de PC
+        </div>
+        <div id="staffMinecraftContainer"></div>
+        <div id="staffDiscordContainer"></div>
+      </section>
     </div>
   </div>
 
-  <p class="pricing-note">Full per-tier pricing is confirmed in a <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer">Discord ticket</a> — no commitment required to ask.</p>
-</section>
-
-<!-- STATS -->
-<section class="section-wrap" id="stats">
-  <div class="stats-grid">
-    <div class="stat-card reveal">
-      <div class="stat-num" data-target="1400" data-suffix="+">0</div>
-      <div class="stat-label">Boosts completed</div>
-    </div>
-    <div class="stat-card reveal">
-      <div class="stat-num" data-target="97" data-suffix="%">0</div>
-      <div class="stat-label">Vouched by customers</div>
-    </div>
-    <div class="stat-card reveal">
-      <div class="stat-num" data-target="15" data-suffix="min">0</div>
-      <div class="stat-label">Avg. quote time</div>
-    </div>
-    <div class="stat-card reveal">
-      <div class="stat-num" data-target="24" data-suffix="/7">0</div>
-      <div class="stat-label">Boosters online</div>
-    </div>
-  </div>
-</section>
-
-<!-- VOUCHES -->
-<section class="section-wrap" id="vouches">
-  <div class="section-head reveal">
-    <span class="eyebrow">Vouches</span>
-    <h2>What customers say</h2>
-  </div>
-  <div class="vouch-grid">
-    <!-- REAL VOUCH #1 — replace the placeholder text below with your actual customer's quote, name, and service -->
-    <div class="vouch-card reveal">
-      <div class="vouch-stars">★★★★★</div>
-      <p class="vouch-quote">"Replace this with your customer's real quote from Discord."</p>
-      <div class="vouch-foot">
-        <span class="vouch-name">CustomerName</span>
-        <span class="vouch-tag">Boost</span>
-      </div>
-    </div>
-
-    <!--
-      HOW TO ADD MORE VOUCHES YOURSELVES:
-      Copy the block above (from "<div class="vouch-card reveal">" to its closing "</div>")
-      and paste it before the "add-vouch" card. Edit 3 things: the quote, the name, and the tag.
-    -->
-
-    <div class="vouch-card add-vouch reveal">
-      <b>More coming soon</b>
-      New vouches get added after every order.
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="section-wrap" id="faq">
-  <div class="section-head reveal">
-    <span class="eyebrow">Questions</span>
-    <h2>FAQ</h2>
-  </div>
-  <div class="faq-list">
-    <div class="faq-item reveal">
-      <button class="faq-q" aria-expanded="false">Is boosting safe for my account?<span class="icon-plus">+</span></button>
-      <div class="faq-a">You only share your email and a login code — never your password. The email owner can revoke access at any time, and the account's email can't be changed without it. You stay in control.</div>
-    </div>
-    <div class="faq-item reveal">
-      <button class="faq-q" aria-expanded="false">Who boosts my account?<span class="icon-plus">+</span></button>
-      <div class="faq-a">One of our team's boosters, assigned through your Discord ticket. You'll know who's working on your order.</div>
-    </div>
-    <div class="faq-item reveal">
-      <button class="faq-q" aria-expanded="false">How do I place an order?<span class="icon-plus">+</span></button>
-      <div class="faq-a">Join the Discord, open a ticket, and tell us your current rank and target.</div>
-    </div>
-    <div class="faq-item reveal">
-      <button class="faq-q" aria-expanded="false">What payment methods do you accept?<span class="icon-plus">+</span></button>
-      <div class="faq-a">Agreed directly in your ticket, based on whatever's easiest for you.</div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="section-wrap" id="contact">
-  <div class="contact-section reveal">
-    <h3>Ready to rank up?</h3>
-    <p>Enter your name to claim your Discord invite link.</p>
-    <form id="invite-form">
-      <div class="input-group">
-        <input type="text" id="username" placeholder="Enter your name..." required>
-        <button type="submit" class="btn-submit">Get Discord invite</button>
-      </div>
-    </form>
-    <div id="discord-result">
-      <p id="welcome-message"></p>
-      <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer" class="btn-discord-final">Join the server</a>
-    </div>
-    <p class="contact-alt">Prefer to skip the form? <a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer">Join directly &rarr;</a></p>
-  </div>
-</section>
-</main>
-
-<footer>
-  <p>© 2026 Brawl Servicees. Not affiliated with Supercell.</p>
-  <div class="foot-links">
-    <a href="#services">Services</a>·<a href="#faq">FAQ</a>·<a href="https://discord.gg/aRNwa4dVcB" target="_blank" rel="noopener noreferrer">Discord</a>
-  </div>
-</footer>
-
-<script>
-  const field = document.getElementById('confettiField');
-  const colors = ['c1','c2','c3','c4'];
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!prefersReduced){
-    for(let i=0;i<22;i++){
-      const p = document.createElement('div');
-      p.className = 'confetto ' + colors[i % colors.length];
-      const size = 6 + Math.random()*6;
-      p.style.width = size + 'px';
-      p.style.height = size + 'px';
-      p.style.left = Math.random()*100 + 'vw';
-      p.style.animationDuration = (9 + Math.random()*8) + 's, ' + (2 + Math.random()*2) + 's';
-      p.style.animationDelay = (Math.random()*14) + 's, 0s';
-      field.appendChild(p);
-    }
-  }
-
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-    navToggle.textContent = isOpen ? 'Close' : 'Menu';
-  });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-    navToggle.textContent = 'Menu';
-  }));
-
-  document.getElementById('invite-form').addEventListener('submit', function(e){
-    e.preventDefault();
-    const name = document.getElementById('username').value.trim();
-    const resultBox = document.getElementById('discord-result');
-    const welcomeMsg = document.getElementById('welcome-message');
-    welcomeMsg.innerHTML = `Welcome, <strong>${name.replace(/</g,"&lt;")}</strong>! Your invite is ready. Click below to join:`;
-    resultBox.classList.add('show');
-  });
-
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.parentElement;
-      const wasActive = item.classList.contains('active');
-      document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('active');
-        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-      });
-      if(!wasActive){
-        item.classList.add('active');
-        btn.setAttribute('aria-expanded', 'true');
-      }
-    });
-  });
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {threshold:.15});
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  /* ===== Ranked Push interactive dropdown ===== */
-  const rankSelect = document.getElementById('rankSelect');
-  const rankPrice = document.getElementById('rankPrice');
-  if(rankSelect && rankPrice){
-    rankSelect.addEventListener('change', () => {
-      const price = rankSelect.selectedOptions[0].dataset.price;
-      rankPrice.textContent = '$' + price;
-      rankPrice.classList.remove('bump');
-      void rankPrice.offsetWidth;
-      rankPrice.classList.add('bump');
-    });
-  }
-
-  /* ===== Service card tilt-on-hover ===== */
-  if(!prefersReduced && window.matchMedia('(pointer: fine)').matches){
-    document.querySelectorAll('.service-card').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - .5;
-        const y = (e.clientY - r.top) / r.height - .5;
-        card.style.transform = `translateY(-4px) rotateX(${(-y*7).toFixed(2)}deg) rotateY(${(x*7).toFixed(2)}deg)`;
-      });
-      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-    });
-  }
-
-  /* ===== Animated stat counters ===== */
-  const statEls = document.querySelectorAll('.stat-num');
-  if(statEls.length){
-    const animateStat = (el) => {
-      const target = parseInt(el.dataset.target, 10);
-      const suffix = el.dataset.suffix || '';
-      const duration = 1400;
-      const start = performance.now();
-      const step = (now) => {
-        const progress = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(target * eased) + suffix;
-        if(progress < 1) requestAnimationFrame(step);
-      };
-      if(prefersReduced){ el.textContent = target + suffix; return; }
-      requestAnimationFrame(step);
+  <script>
+    const CONFIG = {
+      profile: {
+        name: "Roxii",
+        avatar: "https://i.imgur.com/C58UOeP.png",
+        subtitle: "Screensharer",
+      },
+      // Minecraft (Experiencia actual) - Silex ahora con 2025-2026
+      minecraftServers: [
+        { serverName: "GGCRAFT", role: "Coordinador & SS Manager", year: "2025", color: "#ff5e5e", imgurLink: "https://imgur.com/a/bRbq5QP" },
+        { serverName: "Minepet", role: "Senior Admin & SS Coordinator", year: "2026", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
+        { serverName: "DynamicPvP", role: "Mod+ & SS Verified", year: "2025 - 2026", color: "#b77cff", imgurLink: "https://imgur.com/a/H3u7T9w" },
+        { serverName: "SoloLegends", role: "Mod & SS Verified", year: "2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/KD9MPZ3" },
+        { serverName: "PotPvP", role: "Admin & SS Trainer", year: "2026", color: "#e74c3c", imgurLink: "https://imgur.com/a/yK9B0yP" },
+        { serverName: "Minewar", role: "Head of SS & MANAGER", year: "2025", color: "#FFD700", imgurLink: "https://imgur.com/a/6fQYyJJ" },
+        { serverName: "Silex", role: "Mod SS Trainer", year: "2025 - 2026", color: "#FFD700", imgurLink: "https://imgur.com/a/7a3bDCy" },
+        { serverName: "HolyHCF", role: "SS Mentor", year: "2026", color: "#e67e22", imgurLink: "https://imgur.com/a/udFykLE" },
+        { serverName: "MineSplash", role: "SS Manager", year: "2026", color: "#00bfff", imgurLink: "https://imgur.com/a/zNQGpfJ" }
+      ],
+      // Discord (Experiencia actual) - Screenshare Syndicate
+      discordServers: [
+        { serverName: "Demon Bypass", role: "HEADQUARTERS", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
+        { serverName: "SSA", role: "Staff", year: "2025 - 2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
+        { serverName: "Italian TLHub", role: "Screensharer", year: "2026", color: "#ff5e5e", imgurLink: "https://imgur.com/a/FFabJXD" },
+        { serverName: "Ghostly", role: "SS Tester & External Screensharer", year: "2026", color: "#000000", imgurLink: "https://imgur.com/a/Cy10qd9" },
+        { serverName: "Screenshare Syndicate", role: "Screensharer", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/Fcv7kJC" }
+      ],
+      // CURRENTLY dentro de About myself - solo Screenshare Syndicate
+      currentlyDisplay: [
+        { serverName: "Screenshare Syndicate", role: "Screensharer", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/Fcv7kJC" }
+      ],
+      links: [
+        { name: "Discord", role: "whoisroxii", icon: "fa-brands fa-discord", color: "#5865F2", link: "https://discord.com/users/whoisroxii" },
+        { name: "Email", role: "alvarox504@gmail.com", icon: "fa-solid fa-envelope", color: "#22c55e", link: "mailto:alvarox504@gmail.com" },
+        { name: "E-Z Bio", role: "e-z.bio/iroxii", icon: "fa-solid fa-link", color: "#22d3ee", link: "https://e-z.bio/iroxii" }
+      ]
     };
-    const statObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          animateStat(entry.target);
-          statObserver.unobserve(entry.target);
-        }
-      });
-    }, {threshold:.4});
-    statEls.forEach(el => statObserver.observe(el));
-  }
-</script>
 
+    function hexToRgba(hex, alpha) {
+      let c = hex.replace('#', '');
+      if (c.length === 3) c = c.split('').map(x => x + x).join('');
+      const bigint = parseInt(c, 16);
+      const r = (bigint >> 16) & 255, g = (bigint >> 8) & 255, b = bigint & 255;
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function createCategory(containerId, title, icon, servers) {
+      if (!servers || servers.length === 0) return;
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const categoryDiv = document.createElement('div');
+      categoryDiv.className = 'staff-category';
+      categoryDiv.innerHTML = `<h3>${icon ? `<i class="${icon}"></i>` : ''} ${title}</h3><div class="staff-grid"></div>`;
+      const grid = categoryDiv.querySelector('.staff-grid');
+      servers.forEach((server, index) => {
+        const card = document.createElement('div');
+        card.className = 'server-card';
+        card.style.animationDelay = (index * 0.06) + 's';
+        card.addEventListener('click', () => window.open(server.imgurLink, '_blank'));
+        const yearHtml = server.year ? `<div class="server-year">${server.year}</div>` : '';
+        card.innerHTML = `<div class="server-info"><h4>${server.serverName}</h4>${yearHtml}<div class="server-role">${server.role}</div></div>`;
+        if (server.color) {
+          const roleEl = card.querySelector('.server-role');
+          roleEl.style.background = hexToRgba(server.color, 0.1);
+          roleEl.style.borderColor = hexToRgba(server.color, 0.2);
+          roleEl.style.color = server.color;
+        }
+        grid.appendChild(card);
+      });
+      container.appendChild(categoryDiv);
+    }
+
+    function createGenericCards(targetElement, items, includeYear = false) {
+      const container = document.querySelector(targetElement);
+      if (!container) return;
+      container.innerHTML = '';
+      items.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'server-card';
+        card.style.animationDelay = (index * 0.06) + 's';
+        card.addEventListener('click', () => window.open(item.link || item.imgurLink, '_blank'));
+        const cardName = item.name || item.serverName || item.role;
+        const yearHtml = (includeYear && item.year) ? `<div class="server-year">${item.year}</div>` : '';
+        card.innerHTML = `<div class="server-info"><h4>${item.icon ? `<i class="${item.icon}"></i>&nbsp;` : ''}${cardName}</h4>${yearHtml}<div class="server-role">${item.role}</div></div>`;
+        if (item.color) {
+          const roleEl = card.querySelector('.server-role');
+          roleEl.style.background = hexToRgba(item.color, 0.1);
+          roleEl.style.borderColor = hexToRgba(item.color, 0.2);
+          roleEl.style.color = item.color;
+        }
+        container.appendChild(card);
+      });
+    }
+
+    function initializeProfile() {
+      document.getElementById('profileAvatar').innerHTML = `<img src="${CONFIG.profile.avatar}" alt="Profile avatar">`;
+      document.getElementById('profileName').textContent = CONFIG.profile.name;
+      document.getElementById('profileSubtitle').innerHTML = `<i class="fa-solid fa-magnifying-glass" style="transform: scaleX(-1);"></i> ${CONFIG.profile.subtitle}`;
+    }
+
+    function highlightActiveSection() {
+      const sections = document.querySelectorAll('.section');
+      const navItems = document.querySelectorAll('.panel-item');
+      const viewportMiddle = window.scrollY + (window.innerHeight / 2);
+      let closestSection = sections[0];
+      let minDistance = Math.abs(viewportMiddle - (sections[0].offsetTop + sections[0].offsetHeight / 2));
+      sections.forEach(section => {
+        const sectionMiddle = section.offsetTop + (section.offsetHeight / 2);
+        const distance = Math.abs(viewportMiddle - sectionMiddle);
+        if (distance < minDistance) { minDistance = distance; closestSection = section; }
+      });
+      const currentSection = closestSection.id;
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('data-section') === currentSection) item.classList.add('active');
+      });
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.querySelector('.scroll-progress-bar').style.width = scrolled + '%';
+    }
+
+    const bgMusic = document.getElementById('bg-music');
+    const muteBtn = document.getElementById('mute-btn');
+    bgMusic.volume = 0.2;
+
+    function startMusic() {
+      bgMusic.play().catch(error => console.log("Error al reproducir:", error));
+    }
+
+    muteBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      } else {
+        bgMusic.pause();
+        muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      }
+    });
+
+    bgMusic.addEventListener('play', () => muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>');
+    bgMusic.addEventListener('pause', () => muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>');
+
+    const bgStartAudio = document.getElementById('bg-start-audio');
+    const bgStartAudioH1 = bgStartAudio.querySelector('h1');
+    const appContainer = document.querySelector('.app-container');
+
+    function playBgAudio() {
+      bgStartAudio.style.pointerEvents = 'none';
+      bgStartAudio.style.opacity = '0';
+      bgStartAudioH1.style.opacity = '0';
+      setTimeout(() => {
+        document.body.style.overflowY = 'auto';
+        appContainer.classList.add('animate-in');
+        muteBtn.classList.add('animate-in');
+      }, 100);
+      startMusic();
+    }
+    document.addEventListener('click', playBgAudio, { once: true });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeProfile();
+
+      // CURRENTLY (solo Screenshare Syndicate)
+      const bioGrid = document.querySelector('.bio-staff-section .bio-staff-grid');
+      if (bioGrid) {
+        bioGrid.className = 'staff-grid';
+        CONFIG.currentlyDisplay.forEach((server, index) => {
+          const card = document.createElement('div');
+          card.className = 'server-card';
+          card.style.animationDelay = (index * 0.06) + 's';
+          card.addEventListener('click', () => window.open(server.imgurLink, '_blank'));
+          const yearHtml = server.year ? `<div class="server-year">${server.year}</div>` : '';
+          card.innerHTML = `<div class="server-info"><h4>${server.serverName}</h4>${yearHtml}<div class="server-role">${server.role}</div></div>`;
+          if (server.color) {
+            const roleEl = card.querySelector('.server-role');
+            roleEl.style.background = hexToRgba(server.color, 0.1);
+            roleEl.style.borderColor = hexToRgba(server.color, 0.2);
+            roleEl.style.color = server.color;
+          }
+          bioGrid.appendChild(card);
+        });
+      }
+
+      // LINKS
+      createGenericCards('.bio-links-grid', CONFIG.links);
+
+      // Staff Experience: Minecraft y Discord
+      createCategory('staffMinecraftContainer', 'Minecraft', 'fa-solid fa-cube', CONFIG.minecraftServers);
+      createCategory('staffDiscordContainer', 'Discord', 'fa-brands fa-discord', CONFIG.discordServers);
+
+      document.querySelectorAll('.panel-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const sectionId = item.getAttribute('data-section');
+          if (sectionId === 'profileBio') window.scrollTo({ top: 0, behavior: 'smooth' });
+          else document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      window.addEventListener('scroll', highlightActiveSection);
+      highlightActiveSection();
+    });
+  </script>
 </body>
+
 </html>
