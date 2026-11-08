@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roxii · Screensharer & Staff</title>
+  <title>Roxii · PC Checker & Staff</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -59,20 +59,100 @@
       transform: scale(1.05);
     }
 
+    /* === PANTALLA DE CARGA === */
     #bg-start-audio {
       position: fixed; top: 0; left: 0; z-index: 100000000;
       background: #000; width: 100%; height: 100%;
       justify-content: center; align-items: center; display: flex;
-      transition: opacity 0.3s ease-in-out; cursor: pointer; font-size: 15.2px;
+      flex-direction: column; gap: 1.5rem; padding: 2rem;
+      transition: opacity 0.4s ease-in-out; cursor: pointer;
+      text-align: center; overflow: hidden;
+    }
+    #bg-start-audio::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at center, rgba(255,94,94,0.08) 0%, rgba(183,124,255,0.04) 30%, transparent 65%);
+      pointer-events: none;
+    }
+    .loading-content {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1.4rem;
+      position: relative; z-index: 1;
+    }
+    .loading-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(255, 94, 94, 0.05);
+      border: 1px solid rgba(255, 94, 94, 0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; color: var(--accent-primary);
+      animation: pulseIcon 2.5s ease-in-out infinite;
+    }
+    @keyframes pulseIcon {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 94, 94, 0.4), 0 0 30px rgba(255, 94, 94, 0.15);
+      }
+      50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 18px rgba(255, 94, 94, 0), 0 0 40px rgba(255, 94, 94, 0.3);
+      }
     }
     #bg-start-audio h1 {
       transition: opacity 0.05s ease-in-out; opacity: 1;
-      font-weight: 300; letter-spacing: 4px;
+      font-weight: 300; letter-spacing: 6px; font-size: 2rem;
       background: linear-gradient(90deg, #fff, #a1a1aa, #fff);
       background-size: 200% auto;
       background-clip: text; -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: textGradient 3s linear infinite;
+      margin: 0;
+    }
+
+    /* === TIP ALERTA AMARILLA (un poco más grande) === */
+    .hint-proof {
+      position: fixed; bottom: 22px; right: 22px; z-index: 9999;
+      background: rgba(251, 191, 36, 0.13);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      border-radius: 14px;
+      padding: 1.05rem 1.25rem 1.2rem 1.25rem;
+      font-size: 0.9rem; color: #fcd34d;
+      display: flex; align-items: center; gap: 0.8rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55), 0 0 30px rgba(251,191,36,0.18);
+      max-width: 380px; line-height: 1.5;
+      overflow: hidden;
+      opacity: 0; transform: translateY(12px) scale(0.95);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+    .hint-proof.show {
+      opacity: 1; transform: translateY(0) scale(1);
+    }
+    .hint-proof > i {
+      color: #fbbf24;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .hint-progress {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 3.5px;
+      background: linear-gradient(90deg, #fbbf24, #f59e0b);
+      border-radius: 0 0 0 14px;
+      width: 100%;
+    }
+    .hint-proof.show .hint-progress {
+      animation: progressDrain 3s linear forwards;
+    }
+    @keyframes progressDrain {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+    @media (max-width: 768px) {
+      .hint-proof {
+        bottom: 15px; right: 12px; left: 12px; max-width: none;
+        font-size: 0.82rem; padding: 0.85rem 1rem 1rem 1rem;
+      }
+      .hint-proof > i { font-size: 1.1rem; }
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -211,6 +291,17 @@
       transform: translateY(-4px) scale(1.01);
       box-shadow: 0 12px 25px -5px rgba(0,0,0,0.5), 0 0 20px rgba(255,94,94,0.08);
     }
+    .server-card::after {
+      content: '\f35d';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute; top: 8px; right: 10px;
+      font-size: 0.7rem;
+      color: var(--text-tertiary);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .server-card:hover::after { opacity: 0.6; }
 
     @keyframes fadeInUp {
       to { opacity: 1; transform: translateY(0); }
@@ -228,9 +319,7 @@
       letter-spacing: 0.05em; margin-top: 0.25rem;
       transition: all 0.3s ease;
     }
-    .server-card:hover .server-role {
-      transform: scale(1.04);
-    }
+    .server-card:hover .server-role { transform: scale(1.04); }
     .server-year {
       color: var(--text-tertiary); font-size: 0.8rem;
       margin-top: 0.1rem; margin-bottom: 0.3rem; line-height: 1;
@@ -238,7 +327,8 @@
 
     .bio-details { text-align: left; margin-top: 1.5rem; color: var(--text-secondary); }
     .bio-staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; width: 100%; }
-    .bio-links-section { margin-top: 2rem; width: 100%; }
+    /* Aumento sutil del margen entre CURRENTLY y LINKS */
+    .bio-links-section { margin-top: 2.6rem; width: 100%; }
     .bio-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
     .bio-staff-title {
       display: flex; align-items: center; justify-content: center;
@@ -287,14 +377,29 @@
       .staff-grid { grid-template-columns: 1fr; }
       .panel-header { display: none; }
       .bio-links-grid { grid-template-columns: 1fr; }
+      #bg-start-audio h1 { font-size: 1.6rem; letter-spacing: 4px; }
+      .loading-icon { width: 65px; height: 65px; font-size: 1.4rem; }
     }
     ::selection { background: var(--accent-primary); color: #fff; }
   </style>
 </head>
 
 <body>
-  <div id="bg-start-audio"><h1>Click Anywhere</h1></div>
-  
+  <div id="bg-start-audio">
+    <div class="loading-content">
+      <div class="loading-icon">
+        <i class="fa-solid fa-arrow-pointer"></i>
+      </div>
+      <h1>Click Anywhere</h1>
+    </div>
+  </div>
+
+  <div class="hint-proof" id="hintProof">
+    <i class="fa-solid fa-lightbulb"></i>
+    <span>Haz click en cualquier servidor para ver la proof</span>
+    <div class="hint-progress"></div>
+  </div>
+
   <audio id="bg-music" loop preload="auto">
     <source src="song.mp3" type="audio/mpeg">
     Tu navegador no soporta audio HTML5.
@@ -337,10 +442,8 @@
           <p class="subtitle" id="profileSubtitle"></p>
           <div class="bio-tabs">
             <div class="bio-tab"><strong>Age:</strong> 13 y/o</div>
-            <div class="bio-tab"><strong>Place:</strong> España</div>
-            <div class="bio-tab"><strong>Occupation:</strong> Estudiante (Secundaria) • Screensharer</div>
+            <div class="bio-tab"><strong>Place:</strong> Spain</div>
 
-            <!-- CURRENTLY restaurado (con Screenshare Syndicate) -->
             <div class="bio-staff-section">
               <h3 class="bio-staff-title"><i class="fa-solid fa-user-clock"></i> CURRENTLY</h3>
               <div class="bio-staff-grid"></div>
@@ -375,9 +478,8 @@
       profile: {
         name: "Roxii",
         avatar: "https://i.imgur.com/C58UOeP.png",
-        subtitle: "Screensharer",
+        subtitle: "PC Checker",
       },
-      // Minecraft (Experiencia actual) - Silex ahora con 2025-2026
       minecraftServers: [
         { serverName: "GGCRAFT", role: "Coordinador & SS Manager", year: "2025", color: "#ff5e5e", imgurLink: "https://imgur.com/a/bRbq5QP" },
         { serverName: "Minepet", role: "Senior Admin & SS Coordinator", year: "2026", color: "#ff5e5e", imgurLink: "https://imgur.com/a/nR6JQyc" },
@@ -389,7 +491,6 @@
         { serverName: "HolyHCF", role: "SS Mentor", year: "2026", color: "#e67e22", imgurLink: "https://imgur.com/a/udFykLE" },
         { serverName: "MineSplash", role: "SS Manager", year: "2026", color: "#00bfff", imgurLink: "https://imgur.com/a/zNQGpfJ" }
       ],
-      // Discord (Experiencia actual) - Screenshare Syndicate
       discordServers: [
         { serverName: "Demon Bypass", role: "HEADQUARTERS", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
         { serverName: "SSA", role: "Staff", year: "2025 - 2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
@@ -397,9 +498,9 @@
         { serverName: "Ghostly", role: "SS Tester & External Screensharer", year: "2026", color: "#000000", imgurLink: "https://imgur.com/a/Cy10qd9" },
         { serverName: "Screenshare Syndicate", role: "Screensharer", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/Fcv7kJC" }
       ],
-      // CURRENTLY dentro de About myself - solo Screenshare Syndicate
       currentlyDisplay: [
-        { serverName: "Screenshare Syndicate", role: "Screensharer", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/Fcv7kJC" }
+        { serverName: "Screenshare Syndicate", role: "Screensharer", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/Fcv7kJC" },
+        { serverName: "HolyHCF", role: "SS Mentor", year: "2026", color: "#e67e22", imgurLink: "https://imgur.com/a/udFykLE" }
       ],
       links: [
         { name: "Discord", role: "whoisroxii", icon: "fa-brands fa-discord", color: "#5865F2", link: "https://discord.com/users/whoisroxii" },
@@ -494,6 +595,7 @@
 
     const bgMusic = document.getElementById('bg-music');
     const muteBtn = document.getElementById('mute-btn');
+    const hintProof = document.getElementById('hintProof');
     bgMusic.volume = 0.2;
 
     function startMusic() {
@@ -525,6 +627,10 @@
         document.body.style.overflowY = 'auto';
         appContainer.classList.add('animate-in');
         muteBtn.classList.add('animate-in');
+        setTimeout(() => {
+          hintProof.classList.add('show');
+          setTimeout(() => hintProof.classList.remove('show'), 3000);
+        }, 400);
       }, 100);
       startMusic();
     }
@@ -533,7 +639,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       initializeProfile();
 
-      // CURRENTLY (solo Screenshare Syndicate)
       const bioGrid = document.querySelector('.bio-staff-section .bio-staff-grid');
       if (bioGrid) {
         bioGrid.className = 'staff-grid';
@@ -554,10 +659,7 @@
         });
       }
 
-      // LINKS
       createGenericCards('.bio-links-grid', CONFIG.links);
-
-      // Staff Experience: Minecraft y Discord
       createCategory('staffMinecraftContainer', 'Minecraft', 'fa-solid fa-cube', CONFIG.minecraftServers);
       createCategory('staffDiscordContainer', 'Discord', 'fa-brands fa-discord', CONFIG.discordServers);
 
