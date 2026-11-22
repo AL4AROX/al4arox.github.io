@@ -21,10 +21,6 @@
       --text-tertiary: #71717a;
       --border-primary: #1f1f23;
       --border-secondary: #27272a;
-      --glow-primary: #ff5e5e;
-      --glow-secondary: #b77cff;
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
       --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
       --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     }
@@ -37,8 +33,70 @@
     }
     ::-webkit-scrollbar-thumb:hover { background: var(--accent-secondary); }
 
-    .app-container.animate-in,
-    #mute-btn.animate-in { opacity: 1; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary);
+      overflow-x: hidden; overflow-y: hidden; line-height: 1.6; font-size: 14px;
+      -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh;
+    }
+
+    /* === PANTALLA DE CARGA LIMPIA === */
+    #bg-start-audio {
+      position: fixed; top: 0; left: 0; z-index: 100000000;
+      background: #000000;
+      width: 100%; height: 100%;
+      justify-content: center; align-items: center; display: flex;
+      flex-direction: column;
+      transition: opacity 0.6s ease-in-out; cursor: pointer;
+      text-align: center; overflow: hidden;
+    }
+    
+    #bg-start-audio h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: 6px;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(255,255,255,0.4), 0 0 60px rgba(255,255,255,0.2);
+      animation: pulseText 2s ease-in-out infinite;
+      margin: 0;
+      pointer-events: none;
+    }
+    
+    @keyframes pulseText {
+      0%, 100% { transform: scale(1); opacity: 0.8; text-shadow: 0 0 20px rgba(255,255,255,0.4); }
+      50% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 40px rgba(255,255,255,0.8), 0 0 80px rgba(255,255,255,0.4); }
+    }
+
+    /* === ALERTA TIP === */
+    .hint-proof {
+      position: fixed; bottom: 22px; right: 22px; z-index: 9999;
+      background: rgba(251, 191, 36, 0.13);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      border-radius: 14px;
+      padding: 1.05rem 1.25rem 1.2rem 1.25rem;
+      font-size: 0.9rem; color: #fcd34d;
+      display: flex; align-items: center; gap: 0.8rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55), 0 0 30px rgba(251,191,36,0.18);
+      max-width: 380px; line-height: 1.5;
+      overflow: hidden;
+      opacity: 0; transform: translateY(12px) scale(0.95);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+    .hint-proof.show { opacity: 1; transform: translateY(0) scale(1); }
+    .hint-proof > i { color: #fbbf24; font-size: 1.3rem; flex-shrink: 0; }
+    .hint-progress {
+      position: absolute; bottom: 0; left: 0; height: 3.5px;
+      background: linear-gradient(90deg, #fbbf24, #f59e0b);
+      border-radius: 0 0 0 14px; width: 100%;
+    }
+    .hint-proof.show .hint-progress { animation: progressDrain 3s linear forwards; }
+    @keyframes progressDrain { from { width: 100%; } to { width: 0%; } }
+
+    .app-container.animate-in, #mute-btn.animate-in { opacity: 1; }
     .section { transition: transform 1s ease-out, opacity 1s ease-out; }
     #staffExperience { transition-delay: 0.4s; }
 
@@ -59,111 +117,9 @@
       transform: scale(1.05);
     }
 
-    /* === PANTALLA DE CARGA === */
-    #bg-start-audio {
-      position: fixed; top: 0; left: 0; z-index: 100000000;
-      background: #000; width: 100%; height: 100%;
-      justify-content: center; align-items: center; display: flex;
-      flex-direction: column; gap: 1.5rem; padding: 2rem;
-      transition: opacity 0.4s ease-in-out; cursor: pointer;
-      text-align: center; overflow: hidden;
-    }
-    #bg-start-audio::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at center, rgba(255,94,94,0.08) 0%, rgba(183,124,255,0.04) 30%, transparent 65%);
-      pointer-events: none;
-    }
-    .loading-content {
-      display: flex; flex-direction: column;
-      align-items: center; gap: 1.4rem;
-      position: relative; z-index: 1;
-    }
-    .loading-icon {
-      width: 80px; height: 80px; border-radius: 50%;
-      background: rgba(255, 94, 94, 0.05);
-      border: 1px solid rgba(255, 94, 94, 0.25);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.7rem; color: var(--accent-primary);
-      animation: pulseIcon 2.5s ease-in-out infinite;
-    }
-    @keyframes pulseIcon {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 94, 94, 0.4), 0 0 30px rgba(255, 94, 94, 0.15);
-      }
-      50% {
-        transform: scale(1.08);
-        box-shadow: 0 0 0 18px rgba(255, 94, 94, 0), 0 0 40px rgba(255, 94, 94, 0.3);
-      }
-    }
-    #bg-start-audio h1 {
-      transition: opacity 0.05s ease-in-out; opacity: 1;
-      font-weight: 300; letter-spacing: 6px; font-size: 2rem;
-      background: linear-gradient(90deg, #fff, #a1a1aa, #fff);
-      background-size: 200% auto;
-      background-clip: text; -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: textGradient 3s linear infinite;
-      margin: 0;
-    }
-
-    /* === TIP ALERTA AMARILLA (un poco más grande) === */
-    .hint-proof {
-      position: fixed; bottom: 22px; right: 22px; z-index: 9999;
-      background: rgba(251, 191, 36, 0.13);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(251, 191, 36, 0.45);
-      border-radius: 14px;
-      padding: 1.05rem 1.25rem 1.2rem 1.25rem;
-      font-size: 0.9rem; color: #fcd34d;
-      display: flex; align-items: center; gap: 0.8rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.55), 0 0 30px rgba(251,191,36,0.18);
-      max-width: 380px; line-height: 1.5;
-      overflow: hidden;
-      opacity: 0; transform: translateY(12px) scale(0.95);
-      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
-    }
-    .hint-proof.show {
-      opacity: 1; transform: translateY(0) scale(1);
-    }
-    .hint-proof > i {
-      color: #fbbf24;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-    .hint-progress {
-      position: absolute;
-      bottom: 0; left: 0;
-      height: 3.5px;
-      background: linear-gradient(90deg, #fbbf24, #f59e0b);
-      border-radius: 0 0 0 14px;
-      width: 100%;
-    }
-    .hint-proof.show .hint-progress {
-      animation: progressDrain 3s linear forwards;
-    }
-    @keyframes progressDrain {
-      from { width: 100%; }
-      to { width: 0%; }
-    }
-    @media (max-width: 768px) {
-      .hint-proof {
-        bottom: 15px; right: 12px; left: 12px; max-width: none;
-        font-size: 0.82rem; padding: 0.85rem 1rem 1rem 1rem;
-      }
-      .hint-proof > i { font-size: 1.1rem; }
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary);
-      overflow-x: hidden; overflow-y: hidden; line-height: 1.6; font-size: 14px;
-      -webkit-font-smoothing: antialiased; display: flex; min-height: 100vh;
-    }
     .app-container { display: flex; width: 100vw; min-height: 100vh; opacity: 0; transition: opacity .5s ease-out; }
 
+    /* Panel derecho */
     .right-panel {
       width: 280px;
       background: rgba(15, 15, 15, 0.75);
@@ -208,7 +164,7 @@
       background: var(--bg-card); border: 1px solid var(--border-primary);
       border-radius: 16px; padding: 2rem; backdrop-filter: blur(20px);
       position: relative; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden; max-width: 1000px; margin: 0 auto 40px auto;
+      overflow: hidden; max-width: 1100px; margin: 0 auto 40px auto;
       width: 100%; scroll-margin-top: 20px;
     }
     .section::before {
@@ -257,28 +213,52 @@
     .bio-tabs { margin-top: 0; }
     .bio-tab { margin-bottom: 0.5rem; }
 
-    .staff-category { margin: 20px auto; max-width: 1000px; }
+    .staff-category { margin: 20px auto; max-width: 1100px; }
     .staff-category h3 {
       display: flex; align-items: center; gap: 0.6rem;
       font-size: 1rem; margin-bottom: 1.2rem; padding-left: 0;
       font-weight: 600; letter-spacing: 0.3px;
     }
-    .staff-category h3 i {
-      color: var(--accent-primary);
-      font-size: 0.9rem;
+    .staff-category h3 i { color: var(--accent-primary); font-size: 0.9rem; }
+    .cat-count {
+      margin-left: auto; font-size: 0.72rem; color: var(--text-tertiary);
+      font-weight: 500; background: rgba(255,255,255,0.04);
+      padding: 0.15rem 0.6rem; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.06);
     }
 
-    .staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    /* SEARCH BAR */
+    .search-bar {
+      position: relative; margin-bottom: 1.2rem; width: 100%;
+      max-width: 400px; margin-left: auto; margin-right: auto;
+    }
+    .search-bar input {
+      width: 100%; padding: 0.7rem 1rem 0.7rem 2.6rem;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border-primary);
+      border-radius: 10px; color: var(--text-primary);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem;
+      outline: none; transition: all 0.2s ease;
+    }
+    .search-bar input:focus {
+      border-color: rgba(255,94,94,0.4); background: rgba(255,255,255,0.05);
+      box-shadow: 0 0 20px rgba(255,94,94,0.1);
+    }
+    .search-bar i {
+      position: absolute; left: 0.95rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-tertiary); font-size: 0.85rem; pointer-events: none;
+    }
+
+    .staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
 
     .server-card {
       background: var(--bg-tertiary); border: 1px solid var(--border-primary);
-      border-radius: 12px; padding: 1.5rem;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 12px; padding: 1.1rem 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative; overflow: hidden; cursor: pointer;
       display: flex; flex-direction: column; align-items: center;
-      text-align: center; height: 120px; justify-content: center;
+      text-align: center; min-height: 130px; justify-content: center;
       opacity: 0; transform: translateY(10px);
-      animation: fadeInUp 0.5s ease forwards;
+      animation: fadeInUp 0.5s ease forwards; gap: 0.35rem;
     }
     .server-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -287,49 +267,46 @@
     }
     .server-card:hover::before { transform: scaleX(1); }
     .server-card:hover {
-      border-color: var(--border-secondary);
-      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(255,255,255,0.2); transform: translateY(-4px);
       box-shadow: 0 12px 25px -5px rgba(0,0,0,0.5), 0 0 20px rgba(255,94,94,0.08);
     }
-    .server-card::after {
-      content: '\f35d';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute; top: 8px; right: 10px;
-      font-size: 0.7rem;
-      color: var(--text-tertiary);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+    .server-card:hover .proof-hint { opacity: 1; }
+    .proof-hint {
+      position: absolute; top: 8px; right: 10px; font-size: 0.6rem;
+      color: var(--text-tertiary); opacity: 0; transition: opacity 0.25s ease;
+      display: flex; align-items: center; gap: 0.25rem;
     }
-    .server-card:hover::after { opacity: 0.6; }
+    .proof-hint i { font-size: 0.6rem; }
 
-    @keyframes fadeInUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
     .server-info h4 {
-      font-size: 1.125rem; font-weight: 600; color: var(--text-primary);
-      margin-bottom: 0.5rem; display: flex; align-items: center;
-      justify-content: center; text-align: center;
+      font-size: 0.95rem; font-weight: 600; color: var(--text-primary);
+      margin-bottom: 0.15rem; display: flex; align-items: center;
+      justify-content: center; text-align: center; line-height: 1.3;
     }
     .server-role {
       background: #10b9811a; color: #10b981; border: 1px solid #10b98133;
-      padding: 0.375rem 0.75rem; border-radius: 6px; font-size: 0.72rem;
+      padding: 0.3rem 0.65rem; border-radius: 6px; font-size: 0.65rem;
       font-weight: 600; display: inline-block; text-transform: uppercase;
-      letter-spacing: 0.05em; margin-top: 0.25rem;
-      transition: all 0.3s ease;
+      letter-spacing: 0.04em; margin-top: 0.15rem;
+      transition: all 0.3s ease; line-height: 1.3;
     }
-    .server-card:hover .server-role { transform: scale(1.04); }
+    .server-card:hover .server-role { transform: scale(1.03); }
     .server-year {
-      color: var(--text-tertiary); font-size: 0.8rem;
-      margin-top: 0.1rem; margin-bottom: 0.3rem; line-height: 1;
+      color: var(--text-tertiary); font-size: 0.72rem;
+      margin-top: 0.05rem; margin-bottom: 0.1rem; line-height: 1;
     }
 
+    #currentlyGrid { 
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; 
+      max-width: 900px; margin: 0 auto; 
+    }
+    #currentlyGrid .server-card { min-height: 130px; }
+
     .bio-details { text-align: left; margin-top: 1.5rem; color: var(--text-secondary); }
-    .bio-staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; width: 100%; }
-    /* Aumento sutil del margen entre CURRENTLY y LINKS */
     .bio-links-section { margin-top: 2.6rem; width: 100%; }
-    .bio-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
+    .bio-links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; max-width: 700px; margin-left: auto; margin-right: auto; }
     .bio-staff-title {
       display: flex; align-items: center; justify-content: center;
       gap: 0.5rem; font-size: 1rem; font-weight: 700;
@@ -337,29 +314,22 @@
     }
 
     @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes textGradient { 0% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
     body::before {
       content: ''; position: fixed; inset: 0; z-index: -2;
-      background: repeating-linear-gradient(180deg,
-        #ff5e5e 0%, #b77cff 20%, #5e9eff 50%, #b77cff 80%, #ff5e5e 100%);
+      background: repeating-linear-gradient(180deg, #ff5e5e 0%, #b77cff 20%, #5e9eff 50%, #b77cff 80%, #ff5e5e 100%);
       background-size: 100% 300%; background-repeat: repeat-y;
-      animation: backgroundFlow 18s linear infinite;
-      opacity: 0.35;
-      filter: blur(30px);
+      animation: backgroundFlow 18s linear infinite; opacity: 0.35; filter: blur(30px);
     }
     @keyframes backgroundFlow { from { background-position: 0 0; } to { background-position: 0 300%; } }
 
-    .scroll-progress {
-      position: fixed; top: 0; left: 0; width: 100%; height: 3px;
-      background: transparent; z-index: 1000;
-    }
+    .scroll-progress { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: transparent; z-index: 1000; }
     .scroll-progress-bar {
       height: 100%; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-      width: 0%; transition: width 0.2s ease;
-      box-shadow: 0 0 10px var(--accent-primary);
+      width: 0%; transition: width 0.2s ease; box-shadow: 0 0 10px var(--accent-primary);
     }
 
+    @media (max-width: 1100px) { .staff-grid { grid-template-columns: repeat(2, 1fr); } #currentlyGrid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 1024px) { .right-panel { right: 20px; width: 290px; } .main-content { margin-right: 270px; } }
     @media (max-width: 768px) {
       .app-container { flex-direction: column; }
@@ -375,34 +345,34 @@
       .main-content { padding: 1rem; margin-right: 0; }
       .section { max-width: 100%; margin: 20px auto; padding: 1.5rem; }
       .staff-grid { grid-template-columns: 1fr; }
+      #currentlyGrid { grid-template-columns: 1fr; }
       .panel-header { display: none; }
       .bio-links-grid { grid-template-columns: 1fr; }
-      #bg-start-audio h1 { font-size: 1.6rem; letter-spacing: 4px; }
-      .loading-icon { width: 65px; height: 65px; font-size: 1.4rem; }
+      #bg-start-audio h1 { font-size: 1.5rem; letter-spacing: 3px; }
+      .hint-proof { bottom: 15px; right: 12px; left: 12px; max-width: none; font-size: 0.82rem; padding: 0.85rem 1rem 1rem 1rem; }
+      .hint-proof > i { font-size: 1.1rem; }
     }
+    @media (max-width: 480px) { .staff-grid { grid-template-columns: 1fr; } #currentlyGrid { grid-template-columns: 1fr; } }
     ::selection { background: var(--accent-primary); color: #fff; }
   </style>
 </head>
 
 <body>
+  <!-- PANTALLA DE CARGA -->
   <div id="bg-start-audio">
-    <div class="loading-content">
-      <div class="loading-icon">
-        <i class="fa-solid fa-arrow-pointer"></i>
-      </div>
-      <h1>Click Anywhere</h1>
-    </div>
+    <h1>CLICK ANYWHERE</h1>
   </div>
 
+  <!-- TIP -->
   <div class="hint-proof" id="hintProof">
     <i class="fa-solid fa-lightbulb"></i>
     <span>Haz click en cualquier servidor para ver la proof</span>
     <div class="hint-progress"></div>
   </div>
 
+  <!-- MÚSICA (Ruta corregida) -->
   <audio id="bg-music" loop preload="auto">
-    <source src="song.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio HTML5.
+    <source src="Song.mp3" type="audio/mpeg">
   </audio>
 
   <button id="mute-btn"><i class="fa-solid fa-volume-high"></i></button>
@@ -430,14 +400,12 @@
             <div class="profile-image"><div class="profile-inner" id="profileAvatar"></div></div>
           </div>
           <h1 id="profileName" style="
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 900;
+            font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900;
             background: linear-gradient(90deg, #ff5e5e 0%, #b77cff 25%, #5e9eff 50%, #b77cff 75%, #ff5e5e 100%);
             background-size: 200% auto; background-clip: text;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 0; letter-spacing: -0.02em;
-            animation: textGradient 3s linear infinite;
-            position: relative; background-position: 0% 50%;
+            animation: textGradient 3s linear infinite; position: relative; background-position: 0% 50%;
           "></h1>
           <p class="subtitle" id="profileSubtitle"></p>
           <div class="bio-tabs">
@@ -446,7 +414,7 @@
 
             <div class="bio-staff-section">
               <h3 class="bio-staff-title"><i class="fa-solid fa-user-clock"></i> CURRENTLY</h3>
-              <div class="bio-staff-grid"></div>
+              <div class="staff-grid" id="currentlyGrid"></div>
             </div>
 
             <div class="bio-links-section">
@@ -467,6 +435,12 @@
         <div class="bio-text" style="background: #111; padding: 1rem; border-radius: 12px; margin-bottom: 2rem; border-left: 3px solid var(--accent-primary);">
           • Moderación excelente<br>• Gestión de equipos<br>• Creación de sistemas avanzados y normativos<br>• Pasión y conocimientos en revisión de PC
         </div>
+
+        <div class="search-bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="searchInput" placeholder="Buscar servidor...">
+        </div>
+
         <div id="staffMinecraftContainer"></div>
         <div id="staffDiscordContainer"></div>
       </section>
@@ -489,18 +463,21 @@
         { serverName: "Minewar", role: "Head of SS & MANAGER", year: "2025", color: "#FFD700", imgurLink: "https://imgur.com/a/6fQYyJJ" },
         { serverName: "Silex", role: "Mod SS Trainer", year: "2025 - 2026", color: "#FFD700", imgurLink: "https://imgur.com/a/7a3bDCy" },
         { serverName: "HolyHCF", role: "SS Mentor", year: "2026", color: "#e67e22", imgurLink: "https://imgur.com/a/udFykLE" },
-        { serverName: "MineSplash", role: "SS Manager", year: "2026", color: "#00bfff", imgurLink: "https://imgur.com/a/zNQGpfJ" }
+        { serverName: "MineSplash", role: "SS Manager", year: "2026", color: "#00bfff", imgurLink: "https://imgur.com/a/zNQGpfJ" },
+        { serverName: "Doomcraft", role: "SS Coordinator", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/YsSmgKN" }
       ],
       discordServers: [
         { serverName: "Demon Bypass", role: "HEADQUARTERS", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
         { serverName: "SSA", role: "Staff", year: "2025 - 2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
         { serverName: "Italian TLHub", role: "Screensharer", year: "2026", color: "#ff5e5e", imgurLink: "https://imgur.com/a/FFabJXD" },
         { serverName: "Ghostly", role: "SS Tester & External Screensharer", year: "2026", color: "#000000", imgurLink: "https://imgur.com/a/Cy10qd9" },
-        { serverName: "Screenshare Syndicate", role: "Screensharer", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/Fcv7kJC" }
+        { serverName: "Screenshare Syndicate", role: "SSER & Senior admin", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/2BlleXI" },
+        { serverName: "Bypass Screenshare", role: "PC Checker", year: "2026", color: "#22d3ee", imgurLink: "https://imgur.com/a/HYcLGv6" }
       ],
       currentlyDisplay: [
-        { serverName: "Screenshare Syndicate", role: "Screensharer", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/Fcv7kJC" },
-        { serverName: "HolyHCF", role: "SS Mentor", year: "2026", color: "#e67e22", imgurLink: "https://imgur.com/a/udFykLE" }
+        { serverName: "Screenshare Syndicate", role: "SSER & Senior admin", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/2BlleXI" },
+        { serverName: "SSA", role: "Staff", year: "2025 - 2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
+        { serverName: "Bypass Screenshare", role: "PC Checker", year: "2026", color: "#22d3ee", imgurLink: "https://imgur.com/a/HYcLGv6" }
       ],
       links: [
         { name: "Discord", role: "whoisroxii", icon: "fa-brands fa-discord", color: "#5865F2", link: "https://discord.com/users/whoisroxii" },
@@ -517,51 +494,110 @@
       return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
 
+    let searchTerm = '';
+
+    function renderServerCard(server) {
+      if (searchTerm) {
+        const q = searchTerm.toLowerCase();
+        const match = server.serverName.toLowerCase().includes(q) ||
+                      server.role.toLowerCase().includes(q) ||
+                      (server.year && server.year.toLowerCase().includes(q));
+        if (!match) return '';
+      }
+      const yearHtml = server.year ? `<div class="server-year">${server.year}</div>` : '';
+      return `
+        <div class="server-card" data-link="${server.imgurLink}">
+          <div class="proof-hint"><i class="fa-solid fa-arrow-up-right-from-square"></i> proof</div>
+          <div class="server-info">
+            <h4 style="color:${server.color}">${server.serverName}</h4>
+            ${yearHtml}
+            <div class="server-role" style="background:${hexToRgba(server.color, 0.1)};border-color:${hexToRgba(server.color, 0.25)};color:${server.color}">${server.role}</div>
+          </div>
+        </div>
+      `;
+    }
+
     function createCategory(containerId, title, icon, servers) {
       if (!servers || servers.length === 0) return;
       const container = document.getElementById(containerId);
       if (!container) return;
+      
+      const filtered = servers.filter(s => {
+        if (!searchTerm) return true;
+        const q = searchTerm.toLowerCase();
+        return s.serverName.toLowerCase().includes(q) ||
+               s.role.toLowerCase().includes(q) ||
+               (s.year && s.year.toLowerCase().includes(q));
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
       const categoryDiv = document.createElement('div');
       categoryDiv.className = 'staff-category';
-      categoryDiv.innerHTML = `<h3>${icon ? `<i class="${icon}"></i>` : ''} ${title}</h3><div class="staff-grid"></div>`;
+      categoryDiv.innerHTML = `
+        <h3>${icon ? `<i class="${icon}"></i>` : ''} ${title} <span class="cat-count">${filtered.length}</span></h3>
+        <div class="staff-grid"></div>
+      `;
       const grid = categoryDiv.querySelector('.staff-grid');
-      servers.forEach((server, index) => {
-        const card = document.createElement('div');
-        card.className = 'server-card';
-        card.style.animationDelay = (index * 0.06) + 's';
-        card.addEventListener('click', () => window.open(server.imgurLink, '_blank'));
-        const yearHtml = server.year ? `<div class="server-year">${server.year}</div>` : '';
-        card.innerHTML = `<div class="server-info"><h4>${server.serverName}</h4>${yearHtml}<div class="server-role">${server.role}</div></div>`;
-        if (server.color) {
-          const roleEl = card.querySelector('.server-role');
-          roleEl.style.background = hexToRgba(server.color, 0.1);
-          roleEl.style.borderColor = hexToRgba(server.color, 0.2);
-          roleEl.style.color = server.color;
+      
+      filtered.forEach((server, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = renderServerCard(server);
+        const card = wrapper.firstElementChild;
+        if (card) {
+          card.style.animationDelay = (index * 0.04) + 's';
+          card.addEventListener('click', () => window.open(server.imgurLink, '_blank'));
+          grid.appendChild(card);
         }
-        grid.appendChild(card);
       });
+      
+      container.innerHTML = '';
       container.appendChild(categoryDiv);
     }
 
-    function createGenericCards(targetElement, items, includeYear = false) {
+    function createGenericCards(targetElement, items) {
       const container = document.querySelector(targetElement);
       if (!container) return;
       container.innerHTML = '';
       items.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = 'server-card';
-        card.style.animationDelay = (index * 0.06) + 's';
-        card.addEventListener('click', () => window.open(item.link || item.imgurLink, '_blank'));
+        card.style.animationDelay = (index * 0.04) + 's';
+        card.addEventListener('click', () => window.open(item.link, '_blank'));
         const cardName = item.name || item.serverName || item.role;
-        const yearHtml = (includeYear && item.year) ? `<div class="server-year">${item.year}</div>` : '';
-        card.innerHTML = `<div class="server-info"><h4>${item.icon ? `<i class="${item.icon}"></i>&nbsp;` : ''}${cardName}</h4>${yearHtml}<div class="server-role">${item.role}</div></div>`;
-        if (item.color) {
-          const roleEl = card.querySelector('.server-role');
-          roleEl.style.background = hexToRgba(item.color, 0.1);
-          roleEl.style.borderColor = hexToRgba(item.color, 0.2);
-          roleEl.style.color = item.color;
-        }
+        card.innerHTML = `
+          <div class="proof-hint"><i class="fa-solid fa-arrow-up-right-from-square"></i> link</div>
+          <div class="server-info">
+            <h4>${item.icon ? `<i class="${item.icon}"></i>&nbsp;` : ''}${cardName}</h4>
+            <div class="server-role" style="background:${hexToRgba(item.color, 0.1)};border-color:${hexToRgba(item.color, 0.25)};color:${item.color}">${item.role}</div>
+          </div>
+        `;
         container.appendChild(card);
+      });
+    }
+
+    function renderCurrently() {
+      const grid = document.getElementById('currentlyGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      CONFIG.currentlyDisplay.forEach((server, index) => {
+        const card = document.createElement('div');
+        card.className = 'server-card';
+        card.style.animationDelay = (index * 0.05) + 's';
+        card.addEventListener('click', () => window.open(server.imgurLink, '_blank'));
+        const yearHtml = server.year ? `<div class="server-year">${server.year}</div>` : '';
+        card.innerHTML = `
+          <div class="proof-hint"><i class="fa-solid fa-arrow-up-right-from-square"></i> proof</div>
+          <div class="server-info">
+            <h4 style="color:${server.color}">${server.serverName}</h4>
+            ${yearHtml}
+            <div class="server-role" style="background:${hexToRgba(server.color, 0.1)};border-color:${hexToRgba(server.color, 0.25)};color:${server.color}">${server.role}</div>
+          </div>
+        `;
+        grid.appendChild(card);
       });
     }
 
@@ -616,52 +652,42 @@
     bgMusic.addEventListener('pause', () => muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>');
 
     const bgStartAudio = document.getElementById('bg-start-audio');
-    const bgStartAudioH1 = bgStartAudio.querySelector('h1');
     const appContainer = document.querySelector('.app-container');
 
+    // Lógica de inicio corregida
     function playBgAudio() {
-      bgStartAudio.style.pointerEvents = 'none';
       bgStartAudio.style.opacity = '0';
-      bgStartAudioH1.style.opacity = '0';
+      bgStartAudio.style.pointerEvents = 'none';
+      
       setTimeout(() => {
+        bgStartAudio.style.display = 'none';
         document.body.style.overflowY = 'auto';
         appContainer.classList.add('animate-in');
         muteBtn.classList.add('animate-in');
+        
         setTimeout(() => {
           hintProof.classList.add('show');
           setTimeout(() => hintProof.classList.remove('show'), 3000);
         }, 400);
-      }, 100);
+      }, 500); // Espera a que termine la transición de opacidad
+      
       startMusic();
     }
+
     document.addEventListener('click', playBgAudio, { once: true });
 
     document.addEventListener('DOMContentLoaded', () => {
       initializeProfile();
-
-      const bioGrid = document.querySelector('.bio-staff-section .bio-staff-grid');
-      if (bioGrid) {
-        bioGrid.className = 'staff-grid';
-        CONFIG.currentlyDisplay.forEach((server, index) => {
-          const card = document.createElement('div');
-          card.className = 'server-card';
-          card.style.animationDelay = (index * 0.06) + 's';
-          card.addEventListener('click', () => window.open(server.imgurLink, '_blank'));
-          const yearHtml = server.year ? `<div class="server-year">${server.year}</div>` : '';
-          card.innerHTML = `<div class="server-info"><h4>${server.serverName}</h4>${yearHtml}<div class="server-role">${server.role}</div></div>`;
-          if (server.color) {
-            const roleEl = card.querySelector('.server-role');
-            roleEl.style.background = hexToRgba(server.color, 0.1);
-            roleEl.style.borderColor = hexToRgba(server.color, 0.2);
-            roleEl.style.color = server.color;
-          }
-          bioGrid.appendChild(card);
-        });
-      }
-
+      renderCurrently();
       createGenericCards('.bio-links-grid', CONFIG.links);
       createCategory('staffMinecraftContainer', 'Minecraft', 'fa-solid fa-cube', CONFIG.minecraftServers);
       createCategory('staffDiscordContainer', 'Discord', 'fa-brands fa-discord', CONFIG.discordServers);
+
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        searchTerm = e.target.value.trim();
+        createCategory('staffMinecraftContainer', 'Minecraft', 'fa-solid fa-cube', CONFIG.minecraftServers);
+        createCategory('staffDiscordContainer', 'Discord', 'fa-brands fa-discord', CONFIG.discordServers);
+      });
 
       document.querySelectorAll('.panel-item').forEach(item => {
         item.addEventListener('click', (e) => {
