@@ -329,7 +329,7 @@
       width: 0%; transition: width 0.2s ease; box-shadow: 0 0 10px var(--accent-primary);
     }
 
-    @media (max-width: 1100px) { .staff-grid { grid-template-columns: repeat(2, 1fr); } #currentlyGrid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 1100px) { .staff-grid { grid-template-columns: repeat(2, 1fr); } #currentlyGrid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 1024px) { .right-panel { right: 20px; width: 290px; } .main-content { margin-right: 270px; } }
     @media (max-width: 768px) {
       .app-container { flex-direction: column; }
@@ -370,7 +370,7 @@
     <div class="hint-progress"></div>
   </div>
 
-  <!-- MÚSICA (Ruta corregida) -->
+  <!-- MÚSICA -->
   <audio id="bg-music" loop preload="auto">
     <source src="Song.mp3" type="audio/mpeg">
   </audio>
@@ -464,7 +464,8 @@
         { serverName: "Silex", role: "Mod SS Trainer", year: "2025 - 2026", color: "#FFD700", imgurLink: "https://imgur.com/a/7a3bDCy" },
         { serverName: "HolyHCF", role: "SS Mentor", year: "2026", color: "#e67e22", imgurLink: "https://imgur.com/a/udFykLE" },
         { serverName: "MineSplash", role: "SS Manager", year: "2026", color: "#00bfff", imgurLink: "https://imgur.com/a/zNQGpfJ" },
-        { serverName: "Doomcraft", role: "SS Coordinator", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/YsSmgKN" }
+        { serverName: "Doomcraft", role: "SS Coordinator", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/YsSmgKN" },
+        { serverName: "AstralMC", role: "SS Mentor", year: "2026", color: "#00d2d3", imgurLink: "https://imgur.com/a/Jn8un9p" }
       ],
       discordServers: [
         { serverName: "Demon Bypass", role: "HEADQUARTERS", year: "2026", color: "#8B0000", imgurLink: "https://imgur.com/a/PBXdyjz" },
@@ -472,12 +473,14 @@
         { serverName: "Italian TLHub", role: "Screensharer", year: "2026", color: "#ff5e5e", imgurLink: "https://imgur.com/a/FFabJXD" },
         { serverName: "Ghostly", role: "SS Tester & External Screensharer", year: "2026", color: "#000000", imgurLink: "https://imgur.com/a/Cy10qd9" },
         { serverName: "Screenshare Syndicate", role: "SSER & Senior admin", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/2BlleXI" },
-        { serverName: "Bypass Screenshare", role: "PC Checker", year: "2026", color: "#22d3ee", imgurLink: "https://imgur.com/a/HYcLGv6" }
+        { serverName: "Bypass Screenshare", role: "PC Checker", year: "2026", color: "#22d3ee", imgurLink: "https://imgur.com/a/HYcLGv6" },
+        { serverName: "MeowTools", role: "Jr. Screensharer", year: "2026-2027", color: "#ffb347", imgurLink: "https://imgur.com/a/7XgoOON" }
       ],
       currentlyDisplay: [
         { serverName: "Screenshare Syndicate", role: "SSER & Senior admin", year: "2026", color: "#00c9a7", imgurLink: "https://imgur.com/a/2BlleXI" },
         { serverName: "SSA", role: "Staff", year: "2025 - 2026", color: "#5e9eff", imgurLink: "https://imgur.com/a/VJlL8Jz" },
-        { serverName: "Bypass Screenshare", role: "PC Checker", year: "2026", color: "#22d3ee", imgurLink: "https://imgur.com/a/HYcLGv6" }
+        { serverName: "AstralMC", role: "SS Mentor", year: "2026", color: "#00d2d3", imgurLink: "https://imgur.com/a/Jn8un9p" },
+        { serverName: "MeowTools", role: "Jr. Screensharer", year: "2026-2027", color: "#ffb347", imgurLink: "https://imgur.com/a/7XgoOON" }
       ],
       links: [
         { name: "Discord", role: "whoisroxii", icon: "fa-brands fa-discord", color: "#5865F2", link: "https://discord.com/users/whoisroxii" },
@@ -654,7 +657,6 @@
     const bgStartAudio = document.getElementById('bg-start-audio');
     const appContainer = document.querySelector('.app-container');
 
-    // Lógica de inicio corregida
     function playBgAudio() {
       bgStartAudio.style.opacity = '0';
       bgStartAudio.style.pointerEvents = 'none';
@@ -669,7 +671,7 @@
           hintProof.classList.add('show');
           setTimeout(() => hintProof.classList.remove('show'), 3000);
         }, 400);
-      }, 500); // Espera a que termine la transición de opacidad
+      }, 500);
       
       startMusic();
     }
